@@ -8,17 +8,16 @@ type = 'blog'
 
 {{< cards >}}
     {{<
-        card link="/projects/data-science/machine-learning/inmet-solar-sao-paulo/inmet-solar-sao-paulo/" 
+        card link="./data-science/machine-learning/inmet-solar-sao-paulo/inmet-solar-sao-paulo/" 
         subtitle="coisa"
         title="GitHub"
         method="Crop"
         image="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png"
     >}}
     {{<
-        card link="/projects/open-source/neovim-fusion/" 
+        card link="./open-source/neovim-fusion/neovim-fusion" 
         subtitle="The redioactive neovim colorscheme (beware of the radiation)"
         title="Fusion.nvim"
-        method="Crop" options="600x q80 webp"
         image="https://raw.githubusercontent.com/lfenzo/fusion.nvim/main/img/cover.png"
     >}}
 {{< /cards >}}
