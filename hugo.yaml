@@ -1,7 +1,52 @@
 baseURL: https://example.org/
 languageCode: en-us
-title: My New Hugo Site
+title: Personal Page
 
 module:
   imports:
     - path: github.com/imfing/hextra
+
+markup:
+  # allow raw html
+  goldmark:
+    renderer:
+      unsafe: true
+
+  # enable hextra syntax highlight
+  highlight:
+    noClasses: false
+
+
+menu:
+  main:
+    - name: About
+      pageRef: /about
+      weight: 1
+    - name: Experince
+      pageRef: /experience
+      weight: 2
+    - name: Projects
+      pageRef: /projects
+      weight: 3
+    - name: Contact
+      pageRef: /contact
+      weight: 4
+    - name: Search
+      weight: 5
+      params:
+        type: search
+
+params:
+  blog:
+    list:
+      displayTags: true
+      displayCategories: true
+
+  page:
+    # full (100%), wide (90rem), normal (1280px)
+    width: wide
+
+  theme:
+    # light | dark | system
+    default: system
+    displayToggle: true
