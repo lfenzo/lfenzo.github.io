@@ -35,11 +35,10 @@ type = 'blog'
     >}}
 {{< /cards >}}
 
-
 ## Search for..
 
 {{< cards >}}
-  {{< card link="personal-page/tags" icon="github" title="tags" >}}
+  {{< card link="../tags" icon="github" title="tags" >}}
 {{< /cards >}}
 
 ## All Posts
