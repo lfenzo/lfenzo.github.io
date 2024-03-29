@@ -28,13 +28,20 @@ menu:
     - name: Projects
       pageRef: /projects
       weight: 3
-    - name: Contact
-      pageRef: /contact
-      weight: 4
     - name: Search
-      weight: 5
+      weight: 4
       params:
         type: search
+    - name: GitHub
+      weight: 5
+      url: "https://github.com/lfenzo"
+      params:
+        icon: github
+    - name: LinkedIn
+      weight: 6
+      url: "https://www.linkedin.com/in/enzo-l-fernandes/"
+      params:
+        icon: linkedin
 
 params:
   blog:

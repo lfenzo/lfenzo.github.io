@@ -10,9 +10,22 @@ type = 'blog'
     {{<
         card link="./data-science/machine-learning/inmet-solar-sao-paulo/inmet-solar-sao-paulo/" 
         subtitle="coisa"
-        title="GitHub"
+        title="Multi-ensemble based approach for Short-term Solar Radiation Forecasting"
         method="Crop"
         image="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png"
+    >}}
+    {{<
+        card link="./data-science/deep-learning/dummy-satelitte-image-classification" 
+        subtitle="Deep Learning models to classify satellite images"
+        title="Dummy Satellite Image Classification"
+        image="https://media.npr.org/assets/img/2023/11/14/gettyimages-1725899216_slide-831a38e81d89cf08a964fbe5daa1abc8742af405-s1100-c50.jpg"
+    >}}
+    {{<
+        card link="./open-source/impostor" 
+        subtitle="The highly versatile synthetic data generator"
+        title="Impostor.jl"
+        method="Fit"
+        image="https://julialang.org/assets/images/julia-open-graph.png"
     >}}
     {{<
         card link="./open-source/neovim-fusion/neovim-fusion" 
@@ -26,7 +39,7 @@ type = 'blog'
 ## Search for..
 
 {{< cards >}}
-  {{< card link="/tags" icon="github" title="tags" >}}
+  {{< card link="personal-page/tags" icon="github" title="tags" >}}
 {{< /cards >}}
 
 ## All Posts
