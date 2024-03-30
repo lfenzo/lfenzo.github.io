@@ -44,10 +44,16 @@ menu:
         icon: linkedin
 
 params:
+
+  footer:
+    enable: true
+    displayCopyright: true
+    displayPoweredBy: false
+    width: normal
+
   blog:
     list:
       displayTags: true
-      displayCategories: true
 
   page:
     # full (100%), wide (90rem), normal (1280px)

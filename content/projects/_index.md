@@ -38,7 +38,8 @@ type = 'blog'
 ## Search for..
 
 {{< cards >}}
-  {{< card link="../tags" icon="github" title="tags" >}}
+  {{< card link="../tags" icon="tag" title="Tags" >}}
+  {{< card link="../categories" icon="collection" title="Categories" >}}
 {{< /cards >}}
 
 ## All Posts

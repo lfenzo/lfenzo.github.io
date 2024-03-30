@@ -2,6 +2,7 @@
 title = 'Dummy Satellite Image Classification'
 date = 2024-03-28T17:29:05-03:00
 type = 'blog'
+tags = ['deep-learning']
 +++
 
 The objective of this project was to compare the difference between the `Adam`, `SGD` and
