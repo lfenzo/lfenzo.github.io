@@ -32,16 +32,9 @@ menu:
       weight: 4
       params:
         type: search
-    - name: GitHub
-      weight: 5
-      url: "https://github.com/lfenzo"
-      params:
-        icon: github
-    - name: LinkedIn
-      weight: 6
-      url: "https://www.linkedin.com/in/enzo-l-fernandes/"
-      params:
-        icon: linkedin
+    - name: Contact
+      pageRef: /contact
+      weight: 3
 
 params:
 

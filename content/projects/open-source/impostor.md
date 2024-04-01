@@ -10,6 +10,7 @@ Impostor.jl is a Julia package (”library”) which eases the generation of syn
 {{< cards >}}
   {{< card link="https://github.com/lfenzo/Impostor.jl" icon="github" title="Implementation" >}}
   {{< card link="https://lfenzo.github.io/Impostor.jl/stable/" icon="book-open" title="Documentation" >}}
+  {{< card link="https://discourse.julialang.org/t/ann-impostor-jl-a-highly-versatile-synthetic-data-generator/106166" icon="link" title="Announcement post" >}}
 {{< /cards >}}
 
-## Coisa
+# Coisa

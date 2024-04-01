@@ -9,7 +9,3 @@ Computer Science BSc. (graduated from the [Federal University of São Carlos](ht
 Although most of my effort is centered around the Artificial Intelligence area, I also enjoy studying and working on topics such as process automatization, software development, IoT, renewable energy, stock market, linguistics, astronomy and contributing to open-source projects.
 
 I like to design and automate things.
-
-## Contact
-
-
