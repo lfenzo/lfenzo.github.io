@@ -1,5 +1,6 @@
 +++
 title = 'Multi-ensemble based approach for Short-term Solar Radiation Forecasting'
+description = "A"
 date = 2024-03-28T17:29:05-03:00
 type = 'blog'
 tags = ['machine-learning', 'solar-energy']
@@ -23,9 +24,9 @@ This project was originally inspired by =THIS PAPER= which showcases a similar a
 
 The main objective of this project was to use Machine Learning techniques to train models in order to predict solar radiation intensity, which can in turn be used to estimate the electric energy yeld from solar panel module. The following sections 
 
-## Approach
+## Data
 
-### Dataset
+### Data Source
 
 To achive the goal stablished in the section above, the dataset had to posses a set of certain characteristics such as 1) contain the solar radiation variable, 2) hourly (or finer) record granularity and 3) contain measures of meteorological variables in multiple locations.
 
@@ -40,44 +41,44 @@ When this project was developed the only data source available with such attribu
             <th>Unit</th>
         </tr>
         <tr>
-            <td>Barometric pressure</td>
+            <td>$B$ - Barometric pressure</td>
             <td>hPa</td>
         </tr>
         <tr>
-            <td>Dew point</td>
+            <td>$D$ - Dew point</td>
             <td>°C</td>
         </tr>
         <tr>
-            <td>Humidity</td>
+            <td>$H$ - Humidity</td>
             <td>%</td>
         </tr>
         <tr>
-            <td>Precipitatoin</td>
+            <td>$P$ - Precipitatoin</td>
             <td>mm</td>
         </tr>
         <tr>
-            <td>Temperature</td>
+            <td>$T$ - Temperature</td>
             <td>°C</td>
         </tr>
         <tr>
-            <td>Global solar radiation</td>
+            <td>$R$ - Global solar radiation</td>
             <td>kJ/m²</td>
         </tr>
         <tr>
-            <td>Wind speed</td>
+            <td>$W_s$ - Wind speed</td>
             <td>m/s</td>
         </tr>
         <tr>
-            <td>Wind direction</td>
+            <td>$W_d$ - Wind direction</td>
             <td>°</td>
         </tr>
     </table>
-    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png" alt="Description of image" width=570px style="margin-left: 10px;">
+    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png" width=530px style="margin-left: 10px;">
 </div>
 
 Despite the availability, several issues had to be circumvented during data preparation. Some of them worth mentioning are listed below:
 
-- **Missing values**: several meteorological station had major gaps due to availability problems. In some cases, all records from the station had to be discarted as the data would only introduce noise to the models during training. Despite being not documented, most of these issues with missing data must have originated from phisical malfunction and/or damage in meteorological stations which remained unattended for several months.
+- **Missing values**: several meteorological station had major gaps due to availability problems. In some cases, all records from the station had to be discarted as the data would only introduce noise to the models during training. Despite not being documented, most of these issues with missing data must have originated from physical malfunction and/or damage in meteorological stations which remained unattended for several months.
 
 - **Changes recording formatting**: changes in formatting, introduced by migration of services or maybe restandardization of storage utilities, were also experienced. Examples of these changes include the way `NULL` values were registered and date-time formatting changes.
 
@@ -91,17 +92,19 @@ For more information access the [Meteorological Station Map Explorer](https://ma
 
 ### Data Imputation
 
-Given the amount of information lost in missing values, an imputation technique was introduced attempting to artificially reconstruct at least part of the missing data and improve training. As these phenomena are highly dependent on the geographical relation between data colecting points, specially the distance between the stations, the choice was to employ the [*Inverse Distance Weighting*](https://en.wikipedia.org/wiki/Inverse_distance_weighting) (IDW) for each of the features.
+Given the amount of information lost in missing values, an imputation technique was introduced attempting to artificially reconstruct at least part of the missing data and improve training. As these phenomena are highly dependent on the geographical relation between data colecting points, specially the distance between the stations, the choice was to employ the [Inverse Distance Weighting](https://en.wikipedia.org/wiki/Inverse_distance_weighting) (IDW) for each of the features.
 
 The following pseudo-algorithm explains how the IDW imputation was carried out. When a station `s0` is undergoing IDW imputation we first select a set of `nearby_stations` based on the [Haversine Distance](https://en.wikipedia.org/wiki/Haversine_formula) between `s0` and `all_avaliable_stations`; then for every invalid value of `feature` at a timestamp `t` in `s0`, we look for valid values of `feature` on the same timestamp `t` across all selected `nearby_stations`. When the number valid observations in `nearby_stations` exceeds `min_required_stations_for_imputation`, `feature` is interpolated via IDW using the Haversine Distance as weight.
 
 ``` {filename="Inverse Distance Weighting as a mathod for data imputation"}
 nearby_stations ← ∅
-for s ∈ all_available_stations do
+
+for s ∈ all_available_stations - s do
     if distance(s, s0) ⩽ maximum_imputting_distance then
         nearby_station ∪ {s}
     end
 end
+
 if |nearby_stations| ⩾ min_required_stations_for_imputation then
     for t ∈ {min(s0.timestamp), ···, max(s0.timestamp)} do
         if s0.feature at t is NULL then
@@ -119,15 +122,60 @@ The figure bellow depicts the same process. In this case, $A_{fn}^{(ts_i)}$ is u
 For this project this process was conducted adopting a minimum of 3 valid values to interpolate, selecting nearby stations within a maximum distance of 120km.
 {{< /callout >}}
 
-### Modelling Strategy
+## Modelling Strategy
 
+The proposed ML-based forecasting system is composed of two stacked procedures described below. In each one of these procedures Supervised Leaning techniques have been applied in order to prepare the data and obtain models capable of estimating the solar radiation.
 
+{{% steps %}}
+
+### Site-specific Models
+
+![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/overview_p1_borderless.png "Procedure 1: site-specific training schematic view. ")
+
+The first step was to obtain site-specific models trained and tuned with historical meteorological data collected in each one of the collection sites of the area of study. The models and predictions in this procedure are said to be "site-specific" in the sense that, in this stage, no data is shared across stations; all training and tuning carried out in station `s0` is performed only with data from `s0`. This is only possible bacause all stations follow the same standards when recording meteorological data. The dataset use to train the models to predict $\hat{R}_{ts + 1}$, the ratiation for the next hour, followed the given format:
+
+$$ (ts, B, D, H, P, T, R, W_s, W_d) \rightarrow \hat{R}_{ts + 1} $$
+
+The Machine Learning algorithms used to train the site-specific models are shown below. For each one of the training algorithms hyperparameters search routines also were conducted and the fitted models were all combined into a [Stacking Regressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingRegressor.html). At the end of this step we expect to produce one ensemble of trained models per training site.
+
+- [Multi-layer Perceptron](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html) (Dense Neural Network - NN)
+- [Support Vector Machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html) (SVM)
+- [Extremely Randomized Trees](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesRegressor.html) (Extra Trees - ET)
+- [Extreme Gradient Boosting](https://xgboost.readthedocs.io/en/latest/python/python_api.html?highlight=xgbregressor#xgboost.XGBRegressor) (XGB)
+- [Random Forests](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html) (RF)
+
+{{< callout type="info" >}}
+During this stage two branches of execution for training and tuning routines were followed for each station: 1) using original data and 2) using imputed data. After the training and tuning of all models using the two distinct datasets, the best model was selected based on the RMSE.
+{{< /callout >}}
+
+### Generalization Model
+
+![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/overview_p2_borderless.png "Procedure 2: generalization dataset construction and training scheme.")
+
+In order to generalize the predictions we need to train and tune a single generalization model using as input the predictions of the site-specific models trained in the previous procedure. For this step a new dataset is constructed from the site-specific predictions with the addition of other data to train the model to generate the generalized predictions. This new dataset was constructed incorporating for each station the 3-tuple $(d^n, E^n, \hat{R}_{ts_i + 1}^{n})$ in which:
+- $d^n$ is the Haversine Distance from the generalized station to its $n$-th closest station.
+- $E^n$ is the average between the RMSE and MAE of the estimator in the $n$-th closest station.
+- $\hat{R}_{ts_i + 1}^{n}$ is the estimated value of $R$ at timestamp $ts$ produced by the $n$-th closest station.
+
+The ideia is to teach the generalization model the relations envolving distance and "trustworthiness" (measured by the error $E$) of the closest nerby site-specific models when combining their predictions to produce a generalized prediction. The dataset used to train the generalization model followed the given format:
+
+$$
+\bigg(ts_i, La_i, Lo_i,
+\overbrace{d^1, E^1, \hat{R}^1}^{\text{station } 1}, \cdots,
+\overbrace{d^n, E^n, \hat{R}^n}^{\text{station } n} \bigg)
+\rightarrow {\psi_{ts + 1}} 
+$$
+
+{{% /steps %}}
 
 ### Final Prediction Scheme
 
 ![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/prediction_summary.png)
 
-### Baseline
+### Baselines
+
+- [CPRG model](), a decomposition-based model for hourly solar radiation prediction.
+- A IDW interpolation variant 
 
 ## Results
 
@@ -165,7 +213,7 @@ The proposed objective was divided in 2 procedures:
 
 - Obtain a single generalization model trained and tuned with the predictions of the site-specific models in the previous procedure. Predictions correspond to generalizations in the geographical space of predictions generated by models obtained in the first procedure. For this procedure a new dataset would have to be constructed from the local predictions in order to train the generalization model
 
-![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/overview_p1.png "title-1") ![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/overview_p2.png "title-2")
+![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/overview_p2_borderless.png "title-2")
 
 In order to assess the predictions produced by the generalization model a variation of Inverse Distance Weighting was introduced taking into account not only the distance from the reference prediction sites the predicted site but also the errors of the estimators which produced the predictions to be interpolated. The predictions of both site-specific models and the generalization model were also compared to the CPRG hourly radiation prediction empirical model in terms of performance of the predictions.
 
