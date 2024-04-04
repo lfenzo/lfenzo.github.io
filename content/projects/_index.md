@@ -8,7 +8,7 @@ type = 'blog'
 
 {{< cards >}}
     {{<
-        card link="./data-science/machine-learning/inmet-solar-sao-paulo/inmet-solar-sao-paulo/" 
+        card link="./data-science/machine-learning/inmet-solar-sao-paulo" 
         subtitle="coisa"
         title="Multi-ensemble based approach for Short-term Solar Radiation Forecasting"
         method="Crop"

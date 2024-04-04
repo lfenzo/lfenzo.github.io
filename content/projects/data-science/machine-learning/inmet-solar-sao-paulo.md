@@ -200,7 +200,7 @@ As a way to assess the models and have some comparative basis two baselines were
 
 ### Empirical Model
 
-The empirical model used in this project corresponds to the CRPG model, an hourly solar radation model based on decomposition which relates variables such as latitude, longitude, day of year and hour with the solar radiation intensity. The implementation can be found in [project repository](https://github.com/lfenzo/ml-solar-sao-paulo/blob/master/src/empirical_vs_ml/empirical_model.py), for further details check out [this article](https://dergipark.org.tr/en/pub/estubtda/issue/54537/650497).
+The empirical model used in this project corresponds to the CPRG model, an hourly solar radation model based on decomposition which relates variables such as latitude, longitude, day of year and hour with the solar radiation intensity. The implementation can be found in [project repository](https://github.com/lfenzo/ml-solar-sao-paulo/blob/master/src/empirical_vs_ml/empirical_model.py), for further details check out [this article](https://dergipark.org.tr/en/pub/estubtda/issue/54537/650497).
 
 ### IDW-based interpolation
 
@@ -216,18 +216,169 @@ $$
 \psi_{ts+1} = \dfrac{\displaystyle \sum_{i=1}^k \bigg[ \overbrace{e_{s_i}(x_{s_i})}^{\hat{R}^i} \cdot w_i(s_0, s_i) \bigg]}{\displaystyle \sum_{i=1}^k w_i(s_0, s_i)}
 $$
 
-
-
 {{< callout type="info" >}}
 Note that this method was only used as a baseline for the generalization model.
 {{< /callout >}}
 
-
 ## Results
+
+Given the configuration in the modelling strategy, the site-specific models and the generalization model were assessed sepately. Performance was measured using the [Root Mean Squared Error](https://en.wikipedia.org/wiki/Root-mean-square_deviation) (RMSE), [Mean Absolute Error](https://en.wikipedia.org/wiki/Mean_absolute_error) (MAE), the R^2 and the Mean Bias Error (MBE). The values in the tables in upcoming sub-sections correspond to the mean ($\bar{x}$) and standard deviation of metrics values in each meteorological station.
+
+### Site-specific Models
+
+<table border="1">
+    <tr>
+        <th rowspan="2" colspan="2">Metric</th>
+        <th colspan="2">Method</th>
+        <th rowspan="2"> $\underset{\text{EMP} - \text{ML}}{\Delta\%}$</th>
+    </tr>
+    <tr>
+        <th>CPRG (baseline)</th>
+        <th>ML</th>
+    </tr>
+    <tr>
+        <td rowspan="2">RMSE</td>
+        <td>$\bar{x}$</td>
+        <td align="right">551.68</td>
+        <td align="right">363.05</td>
+        <td align="right">-34.19</td>
+    </tr>
+    <tr>
+        <td>$\sigma$</td>
+        <td align="right">136.97</td>
+        <td align="right">43.09</td>
+        <td align="right">-68.53</td>
+    </tr>
+    <tr>
+        <td rowspan="2">MAE</td>
+        <td>$\bar{x}$</td>
+        <td align="right">462.23</td>
+        <td align="right">232.34</td>
+        <td align="right">-49.73</td>
+    </tr>
+    <tr>
+        <td>$\sigma$</td>
+        <td align="right">126.98</td>
+        <td align="right">27.42</td>
+        <td align="right">-78.40</td>
+    </tr>
+    <tr>
+        <td rowspan="2">MBE</td>
+        <td>$\bar{x}$</td>
+        <td align="right">184.83</td>
+        <td align="right">2.25</td>
+        <td align="right">-98.78</td>
+    </tr>
+    <tr>
+        <td>$\sigma$</td>
+        <td align="right">36.26</td>
+        <td align="right">21.31</td>
+        <td align="right">-41.23</td>
+    </tr>
+    <tr>
+        <td rowspan="2">R2</td>
+        <td>$\bar{x}$</td>
+        <td align="right">0.7284</td>
+        <td align="right">0.8806</td>
+        <td align="right">20.89</td>
+    </tr>
+    <tr>
+        <td>$\sigma$</td>
+        <td align="right">0.1370</td>
+        <td align="right">0.0287</td>
+        <td align="right">-79.04</td>
+    </tr>
+</table>
+
+### Generalization Model
+
+<table border="1">
+    <tr>
+        <th rowspan="2" colspan="2">Metric</th>
+        <th colspan="3">Method</th>
+        <th rowspan="2"> $\underset{\text{EMP} - \text{ML}}{\Delta\%}$</th>
+        <th rowspan="2"> $\underset{\text{IDW} - \text{ML}}{\Delta\%}$</th>
+    </tr>
+    <tr>
+        <th>CPRG (baseline)</th>
+        <th>IDW (baseline)</th>
+        <th>ML</th>
+    </tr>
+    <tr>
+        <td rowspan="2">RMSE</td>
+        <td>$\bar{x}$</td>
+        <td align="right">535.66</td>
+        <td align="right">507.73</td>
+        <td align="right">392.33</td>
+        <td align="right">26.74</td>
+        <td align="right">22.73</td>
+    </tr>
+    <tr>
+        <td>$\sigma$</td>
+        <td align="right">128.78</td>
+        <td align="right">99.86</td>
+        <td align="right">58.72</td>
+        <td align="right">51.38</td>
+        <td align="right">41.19</td>
+    </tr>
+    <tr>
+        <td rowspan="2">MAE</td>
+        <td>$\bar{x}$</td>
+        <td align="right">445.94</td>
+        <td align="right">362.10</td>
+        <td align="right">270.69</td>
+        <td align="right">39.30</td>
+        <td align="right">25.24</td>
+    </tr>
+    <tr>
+        <td>$\sigma$</td>
+        <td align="right">116.51</td>
+        <td align="right">72.15</td>
+        <td align="right">28.69</td>
+        <td align="right">74.51</td>
+        <td align="right">58.85</td>
+    </tr>
+    <tr>
+        <td rowspan="2">MBE</td>
+        <td>$\bar{x}$</td>
+        <td align="right">183.81</td>
+        <td align="right">0.52</td>
+        <td align="right">25.25</td>
+        <td align="right">86.97</td>
+        <td align="right">-4755.76</td>
+    </tr>
+    <tr>
+        <td>$\sigma$</td>
+        <td align="right">36.89</td>
+        <td align="right">172.55</td>
+        <td align="right">29.76</td>
+        <td align="right">19.32</td>
+        <td align="right">82.75</td>
+    </tr>
+    <tr>
+        <td rowspan="2">R2</td>
+        <td>$\bar{x}$</td>
+        <td align="right">0.7392</td>
+        <td align="right">0.7581</td>
+        <td align="right">0.8625</td>
+        <td align="right">-16.68</td>
+        <td align="right">-13.77</td>
+    </tr>
+    <tr>
+        <td>$\sigma$</td>
+        <td align="right">0.1344</td>
+        <td align="right">0.1262</td>
+        <td align="right">0.0361</td>
+        <td align="right">-73.14</td>
+        <td align="right">-71.39</td>
+    </tr>
+</table>
 
 ## Conclusion
 
 ## References
+
+aa
 
 ![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/residuals_example.png)
 
@@ -235,5 +386,18 @@ Note that this method was only used as a baseline for the generalization model.
 
 ![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/errors_by_site.png)
 
-(adicionar o scatter plot que tem a informação de quais estações foram imputadas) está no relatório final da fapesp
+![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/src/visuals/perf_scatter/perf_scatter.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
