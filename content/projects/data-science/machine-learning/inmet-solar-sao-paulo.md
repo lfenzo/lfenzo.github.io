@@ -7,6 +7,35 @@ tags = ['machine-learning', 'solar-energy']
 math = true
 +++
 
+<style>
+.container {
+ display: flex;
+ flex-wrap: wrap; /* Allows the items to wrap as needed */
+}
+
+.table {
+ flex: 1; /* Takes up the available space */
+ margin-right: 20px; /* Adds some space between the table and the images */
+}
+
+.image-container {
+ display: flex;
+ flex-wrap: wrap; /* Allows the images to wrap as needed */
+ flex: 1; /* Takes up the available space */
+}
+
+img {
+ max-width: 100%; /* Ensures images are responsive */
+ height: auto; /* Maintains aspect ratio */
+}
+
+@media (max-width: 500px) {
+ .container {
+    flex-direction: column; /* Stacks children vertically */
+ }
+}
+</style>
+
 ## Introduction
 
 This project consists of the development and implemetation of a modeling approach for solar radiation forecasting (although mostly as a "regression as forecasting") from historical meteorological records using Machine Learning (ML) techniques. During the 12-month funding period, provided by [FAPESP](https://fapesp.br/) as a "Scientific Initiation" project, several activities such as literature review, data processing, model training and data analyses have been carried out resulting in a full ML pipeline. The data used in this project was collected by [INMET](https://portal.inmet.gov.br/), the National Meterology Institute in Brazil, consists of records of meteorological variables from which the models should learn; some of the treatments applied to the data, as well as other modeling decisions, are explained in futher details in following sections. 
@@ -34,8 +63,8 @@ When this project was developed the only data source available with such attribu
 
 <br>
 
-<div style="display: flex; flex-direction: row; align-items: center;">
-    <table>
+<div class="container">
+    <table class="table">
         <tr>
             <th>Meteorologic variable</th>
             <th>Unit</th>
@@ -73,7 +102,9 @@ When this project was developed the only data source available with such attribu
             <td>°</td>
         </tr>
     </table>
-    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png" width=530px style="margin-left: 10px;">
+    <div class="image-container">
+        <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png">
+    </div>
 </div>
 
 {{< callout type="info" >}}
@@ -101,7 +132,7 @@ Some of the preprocessing operations carried out in the dataset to prepare this 
 - **Reformatting datetime columns** in order standardize the observations and properly adjust the daylight saving time across the years (some of the years in records had an extra daylight saving hour which had to be accounted for; others didn't, which caused inconsistencies).
 - **Adjusting of target variable**, which envolved first filtering the observations to select only a fixed window for the observations, *i.e.* only hourly observations between 7:00 and 18:00 (local time) were selected. 
 - **Data normalization** using the [Robust Scaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html).
-- **Applying temporal holdout split** to obtain the train and test sets. Out of the Jan/2001 to Jun/2021 period available when this project was developed, 2001-2018 (inclusve) was selected for training and the remaining data (2019-2021) for testing. After the split, the observations in both train and test sets were shuffled.
+- **Applying temporal holdout split** to obtain the train and test sets. Out of the Jan/2001 to Jun/2021 period available when this project was developed, 2001-2018 (inclusve) was selected for training and the remaining data (2019-2021) for testing. After the split, the observations in the training set were shuffled.
 
 
 ### Data Imputation
@@ -146,7 +177,7 @@ The proposed ML-based forecasting system is composed of two stacked procedures d
 
 ![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/overview_p1_borderless.png "Procedure 1: site-specific training schematic view. ")
 
-The first step was to obtain site-specific models trained and tuned with historical meteorological data collected in each one of the collection sites of the area of study. The models and predictions in this procedure are said to be "site-specific" in the sense that, in this stage, no data is shared across stations; all training and tuning carried out in station `s0` is performed only with data from `s0`. This is only possible bacause all stations follow the same standards when recording meteorological data. The dataset use to train the models to predict $\hat{R}_{ts + 1}$, the ratiation for the next hour, followed the given format:
+The first step was to obtain site-specific models trained and tuned with historical meteorological data collected in each one of the collection sites of the area of study. The models and predictions in this procedure are said to be "site-specific" in the sense that, in this stage, no data is shared across stations; all training and tuning carried out in station `s0` is performed only with data from `s0`. This is only possible bacause all stations follow the same standards when recording meteorological data. The dataset used to train the models to predict $\hat{R}_{ts + 1}$, the ratiation for the next hour, followed the given format:
 
 $$ (ts, B, D, H, P, T, R, W_s, W_d) \rightarrow \hat{R}_{ts + 1} $$
 
@@ -200,11 +231,11 @@ As a way to assess the models and have some comparative basis two baselines were
 
 ### Empirical Model
 
-The empirical model used in this project corresponds to the CPRG model, an hourly solar radation model based on decomposition which relates variables such as latitude, longitude, day of year and hour with the solar radiation intensity. The implementation can be found in [project repository](https://github.com/lfenzo/ml-solar-sao-paulo/blob/master/src/empirical_vs_ml/empirical_model.py), for further details check out [this article](https://dergipark.org.tr/en/pub/estubtda/issue/54537/650497).
+The empirical model used in this project corresponds to the CPRG model, a decomposition-based solar radiation model capable of performing hourly predictions by relating variables such as latitude, longitude, day of year and hour with the solar radiation intensity. The implementation can be found in the [project repository](https://github.com/lfenzo/ml-solar-sao-paulo/blob/master/src/empirical_vs_ml/empirical_model.py), for further details check out [this article](https://dergipark.org.tr/en/pub/estubtda/issue/54537/650497).
 
-### IDW-based interpolation
+### IDW-based Interpolation
 
-This method is very similar to the [Data Imputation](#data-imputation) technique used for the input data in the first procedure, however, instead of using IDW to interpolate values of missing features, we are interpolating predictions generated by the site-specific models. As in the generalization model, this baseline model also incorporates the measure of "trustworthiness" of site-specific models by adding to the waights the error from the estimators. As a reference, the following equation shows the calculation of a weight ($e_{s_i}$ is the best estimator for the site $s_i$; $s_0$ is the site for which the predictions are generated and $d$ is the Haversine Distance).
+This method is very similar to the [Data Imputation](#data-imputation) technique used for the data imputation in the first procedure, however, instead of using IDW to interpolate values of missing features, we are interpolating predictions generated the site-specific models. As in the generalization model, this baseline model also incorporates the measure of "trustworthiness" of site-specific models by adding to the weights the error from the estimators. As a reference, the following equation shows the calculation of a weight ($e_{s_i}$ is the best estimator for the site $s_i$; $s_0$ is the site for which the predictions are generated and $d$ is the Haversine Distance).
 
 $$
 w_i(s_0,s_i) = \dfrac{1}{d(s_0, s_1)^2} \bigg( \dfrac{\text{RMSE}(e_{s_i}) + \text{MAE}(e_{s_i})}{2} \bigg)^{-1}
@@ -222,73 +253,116 @@ Note that this method was only used as a baseline for the generalization model.
 
 ## Results
 
-Given the configuration in the modelling strategy, the site-specific models and the generalization model were assessed sepately. Performance was measured using the [Root Mean Squared Error](https://en.wikipedia.org/wiki/Root-mean-square_deviation) (RMSE), [Mean Absolute Error](https://en.wikipedia.org/wiki/Mean_absolute_error) (MAE), the R^2 and the Mean Bias Error (MBE). The values in the tables in upcoming sub-sections correspond to the mean ($\bar{x}$) and standard deviation of metrics values in each meteorological station.
+Given the configuration in the modelling strategy, the site-specific models and the generalization model were assessed sepately. Performance was measured using the [Root Mean Squared Error](https://en.wikipedia.org/wiki/Root-mean-square_deviation) (RMSE), [Mean Absolute Error](https://en.wikipedia.org/wiki/Mean_absolute_error) (MAE), the R^2 and the Mean Bias Error (MBE). The values in the tables in upcoming sub-sections correspond to the mean ($\bar{x}$) and standard deviation of metrics values in each meteorological station comparing the results of the proposed method (ML) against its baselines.
 
 ### Site-specific Models
 
-<table border="1">
-    <tr>
-        <th rowspan="2" colspan="2">Metric</th>
-        <th colspan="2">Method</th>
-        <th rowspan="2"> $\underset{\text{EMP} - \text{ML}}{\Delta\%}$</th>
-    </tr>
-    <tr>
-        <th>CPRG (baseline)</th>
-        <th>ML</th>
-    </tr>
-    <tr>
-        <td rowspan="2">RMSE</td>
-        <td>$\bar{x}$</td>
-        <td align="right">551.68</td>
-        <td align="right">363.05</td>
-        <td align="right">-34.19</td>
-    </tr>
-    <tr>
-        <td>$\sigma$</td>
-        <td align="right">136.97</td>
-        <td align="right">43.09</td>
-        <td align="right">-68.53</td>
-    </tr>
-    <tr>
-        <td rowspan="2">MAE</td>
-        <td>$\bar{x}$</td>
-        <td align="right">462.23</td>
-        <td align="right">232.34</td>
-        <td align="right">-49.73</td>
-    </tr>
-    <tr>
-        <td>$\sigma$</td>
-        <td align="right">126.98</td>
-        <td align="right">27.42</td>
-        <td align="right">-78.40</td>
-    </tr>
-    <tr>
-        <td rowspan="2">MBE</td>
-        <td>$\bar{x}$</td>
-        <td align="right">184.83</td>
-        <td align="right">2.25</td>
-        <td align="right">-98.78</td>
-    </tr>
-    <tr>
-        <td>$\sigma$</td>
-        <td align="right">36.26</td>
-        <td align="right">21.31</td>
-        <td align="right">-41.23</td>
-    </tr>
-    <tr>
-        <td rowspan="2">R2</td>
-        <td>$\bar{x}$</td>
-        <td align="right">0.7284</td>
-        <td align="right">0.8806</td>
-        <td align="right">20.89</td>
-    </tr>
-    <tr>
-        <td>$\sigma$</td>
-        <td align="right">0.1370</td>
-        <td align="right">0.0287</td>
-        <td align="right">-79.04</td>
-    </tr>
-</table>
+Performance in the site-specific models was measured using the test set of each station, which corresponded data records from 2019 to 2021. The numbers presented below are the mean and standard deviantion values of the performance metrics considering the ensemble of best models obtained in each location after hyperparameter tuning. 
+
+<br>
+
+
+
+<div class="container">
+    <table border="1" class="table">
+        <tr>
+            <th rowspan="2" colspan="2">Metric</th>
+            <th colspan="2">Method</th>
+            <th rowspan="2">$\underset{\text{EMP} - \text{ML}}{\Delta\%}$</th>
+        </tr>
+        <tr>
+            <th>CPRG<br>(baseline)</th>
+            <th>ML</th>
+        </tr>
+        <tr>
+            <td rowspan="2">RMSE</td>
+            <td>$\bar{x}$</td>
+            <td align="right">551.68</td>
+            <td align="right">363.05</td>
+            <td align="right">-34.19</td>
+        </tr>
+        <tr>
+            <td>$\sigma$</td>
+            <td align="right">136.97</td>
+            <td align="right">43.09</td>
+            <td align="right">-68.53</td>
+        </tr>
+        <tr>
+            <td rowspan="2">mae</td>
+            <td>$\bar{x}$</td>
+            <td align="right">462.23</td>
+            <td align="right">232.34</td>
+            <td align="right">-49.73</td>
+        </tr>
+        <tr>
+            <td>$\sigma$</td>
+            <td align="right">126.98</td>
+            <td align="right">27.42</td>
+            <td align="right">-78.40</td>
+        </tr>
+        <tr>
+            <td rowspan="2">mbe</td>
+            <td>$\bar{x}$</td>
+            <td align="right">184.83</td>
+            <td align="right">2.25</td>
+            <td align="right">-98.78</td>
+        </tr>
+        <tr>
+            <td>$\sigma$</td>
+            <td align="right">36.26</td>
+            <td align="right">21.31</td>
+            <td align="right">-41.23</td>
+        </tr>
+        <tr>
+            <td rowspan="2">r2</td>
+            <td>$\bar{x}$</td>
+            <td align="right">0.7284</td>
+            <td align="right">0.8806</td>
+            <td align="right">20.89</td>
+        </tr>
+        <tr>
+            <td>$\sigma$</td>
+            <td align="right">0.1370</td>
+            <td align="right">0.0287</td>
+            <td align="right">-79.04</td>
+        </tr>
+    </table>
+    <div class="image-container">
+        <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/src/visuals/perf_scatter/perf_scatter.png">
+    </div>
+</div>
+
+Some interesting insights were noted during the assessment in this stage. One of them was the presence of a bias in the estimators causing them to procude worse predictions along the year. This behavior, showed in the left picture below where the residual errors are plotted as a function of the day of the year in the test set, shows that higher errors are procuded in the months of November through February, which correspond to the summer rain season in this particular region. Conversely, Southeastern Brazil is characterized by dry winters favoring the estimators with less variation in climate conditions, specially precipitation. Conversely, the winters in Southeastern Brazil are characterized by the lower volume of precipitation and less variation in overall climate conditions which introduced less noise in the data consumed by the models in order to generate predictions.
+
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+  padding: 5px;
+}
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 500px) {
+  .column {
+    width: 100%;
+  }
+}
+</style>
+
+<div class="row">
+  <div class="column">
+    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/residuals_example.png" style="height: 300px">
+  </div>
+  <div class="column">
+    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp_rain.png" style="height: 300px">
+  </div>
+</div>
+
+Another interesting fact was observed plotting the performance with respect to the geographical location of stations. Site-specific models located predominantly in the northwest of the State of São Paulo (see figure below) presented slightly better metrics then the ones in the Southeast. Again, this is due to the variability in climate conditions, this time influenced by the proximity of such locations to the Atlantic Ocean. Continentality of these locations make climate conditions less prone to abrupt variations, besides that the estimators also benefit from a overall less precipitation as these regions are also mostly drier than other regions of the State.
+
+![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/errors_by_site.png)
 
 ### Generalization Model
 
@@ -377,27 +451,3 @@ Given the configuration in the modelling strategy, the site-specific models and 
 ## Conclusion
 
 ## References
-
-aa
-
-![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/residuals_example.png)
-
-![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp_rain.png)
-
-![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/errors_by_site.png)
-
-![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/src/visuals/perf_scatter/perf_scatter.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
