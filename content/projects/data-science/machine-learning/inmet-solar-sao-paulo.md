@@ -7,35 +7,6 @@ tags = ['machine-learning', 'solar-energy']
 math = true
 +++
 
-<style>
-.container {
- display: flex;
- flex-wrap: wrap; /* Allows the items to wrap as needed */
-}
-
-.table {
- flex: 1; /* Takes up the available space */
- margin-right: 20px; /* Adds some space between the table and the images */
-}
-
-.image-container {
- display: flex;
- flex-wrap: wrap; /* Allows the images to wrap as needed */
- flex: 1; /* Takes up the available space */
-}
-
-img {
- max-width: 100%; /* Ensures images are responsive */
- height: auto; /* Maintains aspect ratio */
-}
-
-@media (max-width: 500px) {
- .container {
-    flex-direction: column; /* Stacks children vertically */
- }
-}
-</style>
-
 ## Introduction
 
 This project consists of the development and implemetation of a modeling approach for solar radiation forecasting (although mostly as a "regression as forecasting") from historical meteorological records using Machine Learning (ML) techniques. During the 12-month funding period, provided by [FAPESP](https://fapesp.br/) as a "Scientific Initiation" project, several activities such as literature review, data processing, model training and data analyses have been carried out resulting in a full ML pipeline. The data used in this project was collected by [INMET](https://portal.inmet.gov.br/), the National Meterology Institute in Brazil, consists of records of meteorological variables from which the models should learn; some of the treatments applied to the data, as well as other modeling decisions, are explained in futher details in following sections. 
@@ -47,7 +18,6 @@ This project was originally inspired by =THIS PAPER= which showcases a similar a
   {{< card link="https://bv.fapesp.br/pt/bolsas/193480/previsao-de-irradiacao-solar-para-sistemas-fotovoltaicos-utilizando-machine-learning-uma-abordagem/" icon="link" title="Funding Agency link" >}}
   {{< card link="https://github.com/lfenzo/ml-solar-sao-paulo/blob/8fc0a0e3f9e1c349a054ac95076ecf5930daf1ce/doc/paper.pdf" icon="book-open" title="Paper" >}}
 {{< /cards >}}
-
 
 ## Objective
 
@@ -62,6 +32,33 @@ To achive the goal stablished in the section above, the dataset had to posses a 
 When this project was developed the only data source available with such attributes was provided by the Brazillian National Institute of Meteorology (INMET) through its [website](https://portal.inmet.gov.br/). The data, provided free of charge, is collected through several meteorological stations across the country on an hourly basis and transmitted to INMET for processing and storage. In order to limit the scope, only stations from the State of São Paulo, totallying 56 data collection sites, were seleted with **records ranging from January 2001 to July 2021**. The meteorological variables collected as well as the location of each meteorological station are shown below.
 
 <br>
+
+<style>
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.image {
+    flex: 2; /* Adjust this value to control the width of the image relative to the table */
+    padding: 5px; /* Adjust spacing between the image and the table */
+}
+
+.table {
+    flex: 1;
+}
+
+@media (max-width: 500) {
+    .container {
+        flex-direction: column;
+    }
+    .image, .table {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+</style>
 
 <div class="container">
     <table class="table">
@@ -102,9 +99,10 @@ When this project was developed the only data source available with such attribu
             <td>°</td>
         </tr>
     </table>
-    <div class="image-container">
+    <figure class="image">
         <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png">
-    </div>
+        <figcaption>Geographical location of meteorological stations in the State of São Paulo.</figcaption>
+    </figure>
 </div>
 
 {{< callout type="info" >}}
@@ -253,18 +251,44 @@ Note that this method was only used as a baseline for the generalization model.
 
 ## Results
 
-Given the configuration in the modelling strategy, the site-specific models and the generalization model were assessed sepately. Performance was measured using the [Root Mean Squared Error](https://en.wikipedia.org/wiki/Root-mean-square_deviation) (RMSE), [Mean Absolute Error](https://en.wikipedia.org/wiki/Mean_absolute_error) (MAE), the R^2 and the Mean Bias Error (MBE). The values in the tables in upcoming sub-sections correspond to the mean ($\bar{x}$) and standard deviation of metrics values in each meteorological station comparing the results of the proposed method (ML) against its baselines.
+Given the configuration in the modelling strategy, the site-specific models and the generalization model were assessed sepately. Performance was measured using the [Root Mean Squared Error](https://en.wikipedia.org/wiki/Root-mean-square_deviation) (RMSE), [Mean Absolute Error](https://en.wikipedia.org/wiki/Mean_absolute_error) (MAE), the [Coefficient of Determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) (R²) and the Mean Bias Error (MBE). The values in the tables in upcoming sub-sections correspond to the mean ($\bar{x}$) and standard deviation of metrics values in each meteorological station comparing the results of the proposed method (ML) against its baselines.
 
 ### Site-specific Models
 
-Performance in the site-specific models was measured using the test set of each station, which corresponded data records from 2019 to 2021. The numbers presented below are the mean and standard deviantion values of the performance metrics considering the ensemble of best models obtained in each location after hyperparameter tuning. 
+Performance in the site-specific models was measured using the test set of each station, which corresponded data records from 2019 to 2021. The numbers presented below are the mean and standard deviantion values of the performance metrics considering the ensemble of best models obtained in each location after hyperparameter tuning.
 
 <br>
 
+<style>
+.container {
+ display: flex;
+ flex-wrap: wrap; /* Allows the items to wrap as needed */
+}
 
+.table {
+ flex: 1; /* Takes up the available space */
+ margin-right: 20px; /* Adds some space between the table and the images */
+}
+
+.image-container {
+ flex-wrap: wrap; /* Allows the images to wrap as needed */
+ flex: 1; /* Takes up the available space */
+}
+
+img {
+ max-width: 100%; /* Ensures images are responsive */
+ height: auto; /* Maintains aspect ratio */
+}
+
+@media (max-width: 500px) {
+ .container {
+    flex-direction: column; /* Stacks children vertically */
+ }
+}
+</style>
 
 <div class="container">
-    <table border="1" class="table">
+    <table class="table">
         <tr>
             <th rowspan="2" colspan="2">Metric</th>
             <th colspan="2">Method</th>
@@ -288,7 +312,7 @@ Performance in the site-specific models was measured using the test set of each 
             <td align="right">-68.53</td>
         </tr>
         <tr>
-            <td rowspan="2">mae</td>
+            <td rowspan="2">MAE</td>
             <td>$\bar{x}$</td>
             <td align="right">462.23</td>
             <td align="right">232.34</td>
@@ -301,7 +325,7 @@ Performance in the site-specific models was measured using the test set of each 
             <td align="right">-78.40</td>
         </tr>
         <tr>
-            <td rowspan="2">mbe</td>
+            <td rowspan="2">MBE</td>
             <td>$\bar{x}$</td>
             <td align="right">184.83</td>
             <td align="right">2.25</td>
@@ -314,7 +338,7 @@ Performance in the site-specific models was measured using the test set of each 
             <td align="right">-41.23</td>
         </tr>
         <tr>
-            <td rowspan="2">r2</td>
+            <td rowspan="2">R2</td>
             <td>$\bar{x}$</td>
             <td align="right">0.7284</td>
             <td align="right">0.8806</td>
@@ -327,42 +351,35 @@ Performance in the site-specific models was measured using the test set of each 
             <td align="right">-79.04</td>
         </tr>
     </table>
-    <div class="image-container">
-        <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/src/visuals/perf_scatter/perf_scatter.png">
-    </div>
+    <figure class="image-container">
+        <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/src/visuals/perf_scatter/perf_scatter.png" width="100%">
+        <figcaption>MAE per station. Each point in the scatterplot below represents a meteorological station in the first procedure.</figcaption>
+    </figure>
 </div>
+
+{{< callout type="info" >}}
+Out of the 39 models (each associated to a station) in the site-specific step, **20 had their performance improved by using the IDW-imputed data.**
+{{< /callout >}}
 
 Some interesting insights were noted during the assessment in this stage. One of them was the presence of a bias in the estimators causing them to procude worse predictions along the year. This behavior, showed in the left picture below where the residual errors are plotted as a function of the day of the year in the test set, shows that higher errors are procuded in the months of November through February, which correspond to the summer rain season in this particular region. Conversely, Southeastern Brazil is characterized by dry winters favoring the estimators with less variation in climate conditions, specially precipitation. Conversely, the winters in Southeastern Brazil are characterized by the lower volume of precipitation and less variation in overall climate conditions which introduced less noise in the data consumed by the models in order to generate predictions.
 
-<style>
-.row {
-  display: flex;
-}
-
-.column {
-  flex: 50%;
-  padding: 5px;
-}
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 500px) {
-  .column {
-    width: 100%;
-  }
-}
-</style>
-
-<div class="row">
-  <div class="column">
-    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/residuals_example.png" style="height: 300px">
-  </div>
-  <div class="column">
-    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp_rain.png" style="height: 300px">
-  </div>
+<div class="container">
+  <figure class="image">
+    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/residuals_example.png">
+    <figcaption>Example of the bias with respect to the period of the year. In this image the station A711 is used as an example.</figcaption>
+  </figure>
+  <figure class="image">
+    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp_rain.png">
+    <figcaption>Global solar radiation (boxplot) in relation to the precipitation (monthly average over the period of available data).</figcaption>
+  </figure>
 </div>
 
 Another interesting fact was observed plotting the performance with respect to the geographical location of stations. Site-specific models located predominantly in the northwest of the State of São Paulo (see figure below) presented slightly better metrics then the ones in the Southeast. Again, this is due to the variability in climate conditions, this time influenced by the proximity of such locations to the Atlantic Ocean. Continentality of these locations make climate conditions less prone to abrupt variations, besides that the estimators also benefit from a overall less precipitation as these regions are also mostly drier than other regions of the State.
 
-![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/errors_by_site.png)
+<figure>
+    <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/errors_by_site.png">
+    <figcaption>RMSE in each model in the procedure 1. Sites marked as X were not used for training for not meeting the minimun required amount of retroactive data. See the Preprocessing section for details.</figcaption>
+</figure>
 
 ### Generalization Model
 
