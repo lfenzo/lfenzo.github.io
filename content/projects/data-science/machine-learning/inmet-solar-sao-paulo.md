@@ -11,7 +11,7 @@ math = true
 
 This project consists of the development and implemetation of a modeling approach for solar radiation forecasting (although mostly as a "regression as forecasting") from historical meteorological records using Machine Learning (ML) techniques. During the 12-month funding period, provided by [FAPESP](https://fapesp.br/) as a "Scientific Initiation" project, several activities such as literature review, data processing, model training and data analyses have been carried out resulting in a full ML pipeline. The data used in this project was collected by [INMET](https://portal.inmet.gov.br/), the National Meterology Institute in Brazil, consists of records of meteorological variables from which the models should learn; some of the treatments applied to the data, as well as other modeling decisions, are explained in futher details in following sections. 
 
-This project was originally inspired by =THIS PAPER= which showcases a similar approach for solar radiation prediction in Australia, where energy trading markets would benefit from intelligent systems capable of forecasting energy offer from photovoltaic solar predictions. Unfortunatelly, such markets are not available in Brazil as most of the electric energy comes from hydroelectric dams.
+This project was originally inspired by [this paper](https://www.sciencedirect.com/science/article/abs/pii/S0960148115305747?via%3Dihub) which showcases a similar approach for solar radiation prediction in Australia, where energy trading markets would benefit from intelligent systems capable of forecasting energy offer from photovoltaic solar predictions. Unfortunatelly, such markets are not available in Brazil as most of the electric energy comes from hydroelectric dams.
 
 {{< cards >}}
   {{< card link="https://github.com/lfenzo/Impostor.jl" icon="github" title="Implementation" >}}
@@ -212,7 +212,10 @@ $$
 To prevent noise in this new dataset, the minimum required number of tuples $(d^n, E^n, \hat{R}_{ts_i + 1}^{n})$ was set to 3. Since this dataset was set to accomomdate up to 7 3-tuples, when the number of available 3-tuples was smaller than 7, the remainig "slots" were filled with zeros.
 
 {{< callout type="info" >}}
-Note that the filter selecting only stations with 7 years of valid retroactive observations (mentioned in section [Preprocessing](#preprocessing)) was by-passed in this step as, despite not having available observations for the first procedure training, the observed values were still relevant when training and assessing the generalization model.
+Note that:
+
+1. The filter selecting only stations with 7 years of valid retroactive observations (mentioned in section [Preprocessing](#preprocessing)) was by-passed in this step as, despite not having available observations for the first procedure training, the observed values were still relevant when training and assessing the generalization model.
+1. In case the station at $(La_i, Lo_i)$ was used in the first step (*i.e.* it has a model associated to it), its predictions were not used to generate this dataset as the distance $d_i$ would be $0$. In other words, we do not use predictions from the same site $s_i$ when generating the training dataset for this second step.
 {{< /callout >}}
 
 {{% /steps %}}
@@ -353,7 +356,7 @@ img {
     </table>
     <figure class="image-container">
         <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/src/visuals/perf_scatter/perf_scatter.png" width="100%">
-        <figcaption>MAE per station. Each point in the scatterplot below represents a meteorological station in the first procedure.</figcaption>
+        <figcaption>MAE per station. Each point in the scatter plot above represents a meteorological station in the first procedure.</figcaption>
     </figure>
 </div>
 
@@ -361,7 +364,7 @@ img {
 Out of the 39 models (each associated to a station) in the site-specific step, **20 had their performance improved by using the IDW-imputed data.**
 {{< /callout >}}
 
-Some interesting insights were noted during the assessment in this stage. One of them was the presence of a bias in the estimators causing them to procude worse predictions along the year. This behavior, showed in the left picture below where the residual errors are plotted as a function of the day of the year in the test set, shows that higher errors are procuded in the months of November through February, which correspond to the summer rain season in this particular region. Conversely, Southeastern Brazil is characterized by dry winters favoring the estimators with less variation in climate conditions, specially precipitation. Conversely, the winters in Southeastern Brazil are characterized by the lower volume of precipitation and less variation in overall climate conditions which introduced less noise in the data consumed by the models in order to generate predictions.
+Some interesting insights were noted during the assessment in this stage. One of them was the presence of a bias in the estimators causing them to procude worse predictions along the year. This behavior, showed in the left picture below where the residual errors are plotted as a function of the day of the year in the test set, shows that higher errors are procuded in the months of November through February, which correspond to the summer rain season in this particular region. Conversely, the winters in Southeastern Brazil are characterized by the lower volume of precipitation and less variation in overall climate conditions which introduced less noise in the data consumed by the models resulting in more accurate predictions.
 
 <div class="container">
   <figure class="image">
@@ -374,7 +377,7 @@ Some interesting insights were noted during the assessment in this stage. One of
   </figure>
 </div>
 
-Another interesting fact was observed plotting the performance with respect to the geographical location of stations. Site-specific models located predominantly in the northwest of the State of São Paulo (see figure below) presented slightly better metrics then the ones in the Southeast. Again, this is due to the variability in climate conditions, this time influenced by the proximity of such locations to the Atlantic Ocean. Continentality of these locations make climate conditions less prone to abrupt variations, besides that the estimators also benefit from a overall less precipitation as these regions are also mostly drier than other regions of the State.
+Another interesting fact was observed plotting the performance with respect to the geographical location of stations. Site-specific models located predominantly in the northwest of the State of São Paulo (see figure below) presented slightly better metrics then the ones in the Southeast. Again, this is due to the variability in climate conditions, this time influenced by the proximity of such locations to the Atlantic Ocean. Continentality of these locations make climate conditions less prone to abrupt variations; besides that, estimators also benefit from overall less precipitation as these regions are also mostly drier than other regions of the State.
 
 <figure>
     <img src="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/errors_by_site.png">
@@ -465,6 +468,16 @@ Another interesting fact was observed plotting the performance with respect to t
     </tr>
 </table>
 
+{{< callout type="info" >}}
+Note that the values of the CPRG model are different from the ones in the previous procedure (even though the method is the same) as a greater number of stations were used during performance assessment for the second procedure.
+{{< /callout >}}
+
 ## Conclusion
 
-## References
+Some interesting conclusions from this project:
+
+1. Both site-specific models and the generalization model were able to outperform their baselines. The difference in performance metrics between the approaches suggests that the higher cost in terms of complexity is rewarded as more accurate predictions.
+
+1. The inverse distance weighting based imputation performend during preprocessing showed to be a promising approach as an Imputation method for geographical data as more than then the half of models in P1 had their performance improved by using it. Although this technique played a relatively small role in the project, given its impact, it is fair to say that it deserves its own investigation to address further questions such as the optimal distance for imputation, how different features respond to it and its limitations and drawbacks.
+
+1. The bias uncovered by residual plots may be attenuated by having models specialized in certain periods of the year. In this cases, models responsible for summertime predictions may benefit from additional techniques to reduce the excessive noise present 
