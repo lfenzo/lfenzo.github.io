@@ -9,7 +9,7 @@ type = 'blog'
 {{< cards >}}
     {{<
         card link="./data-science/machine-learning/inmet-solar-sao-paulo" 
-        subtitle="coisa"
+        subtitle="Machine Learning models to predict solar radiation."
         title="Multi-ensemble based approach for Short-term Solar Radiation Forecasting"
         method="Crop"
         image="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png"

@@ -13,6 +13,8 @@ This project consists of the development and implemetation of a modeling approac
 
 This project was originally inspired by [this paper](https://www.sciencedirect.com/science/article/abs/pii/S0960148115305747?via%3Dihub) which showcases a similar approach for solar radiation prediction in Australia, where energy trading markets would benefit from intelligent systems capable of forecasting energy offer from photovoltaic solar predictions. Unfortunatelly, such markets are not available in Brazil as most of the electric energy comes from hydroelectric dams.
 
+The implementation for this project was done in Python3 with common Data Science libraries such as [Pandas]()https://pandas.pydata.org/, [scikit-learn](https://scikit-learn.org/stable/), [matplotlib](https://matplotlib.org/), [numpy](https://numpy.org/), [GeoPandas](https://geopandas.org/en/stable/) and others.
+
 {{< cards >}}
   {{< card link="https://github.com/lfenzo/Impostor.jl" icon="github" title="Implementation" >}}
   {{< card link="https://bv.fapesp.br/pt/bolsas/193480/previsao-de-irradiacao-solar-para-sistemas-fotovoltaicos-utilizando-machine-learning-uma-abordagem/" icon="link" title="Funding Agency link" >}}
@@ -21,13 +23,13 @@ This project was originally inspired by [this paper](https://www.sciencedirect.c
 
 ## Objective
 
-The main objective of this project was to use Machine Learning techniques to train models in order to predict solar radiation intensity, which can in turn be used to estimate the electric energy yeld from solar panel module. The following sections 
+The main objective of this project was to **use Machine Learning techniques to predict solar radiation intensity**, which can in turn be used to estimate the electric energy yeld from solar panel module. As this project was developed other sub-objectives were also divised to address this objective such as obtainig a data source, preprocessing the data and other operations related to training and testing of the methods. The sections to come highlight the work conducted in this project.
 
 ## Data
 
 ### Data Source
 
-To achive the goal stablished in the section above, the dataset had to posses a set of certain characteristics such as 1) contain the solar radiation variable, 2) hourly (or finer) record granularity and 3) contain measures of meteorological variables in multiple locations.
+To achive the goal stablished in the section above, the dataset needed set of certain characteristics such as 1) contain the solar radiation variable, 2) hourly (or finer) record granularity and 3) contain measures of meteorological variables in multiple locations.
 
 When this project was developed the only data source available with such attributes was provided by the Brazillian National Institute of Meteorology (INMET) through its [website](https://portal.inmet.gov.br/). The data, provided free of charge, is collected through several meteorological stations across the country on an hourly basis and transmitted to INMET for processing and storage. In order to limit the scope, only stations from the State of São Paulo, totallying 56 data collection sites, were seleted with **records ranging from January 2001 to July 2021**. The meteorological variables collected as well as the location of each meteorological station are shown below.
 
@@ -123,19 +125,19 @@ Despite the availability, several issues had to be circumvented during data clea
 
 Some of the preprocessing operations carried out in the dataset to prepare this dataset envolved:
 
-- **PCA transforming** $B$, $D$, $H$ and $T$ down to one component. These particular features had 3 measures associated to them each hour: the maximum and minimum value within the hour as well as the instant measurement.
+- **PCA transforming** $B$, $D$, $H$ and $T$ down to one component. These particular features had 3 measures associated to them in each hour: the maximum and minimum value within the hour as well as the instant measurement.
 - **Removing observations with spurious values**, for example negative solar radiation or precipitation, temperatures inferior to 10°C as these are extremely rare in the area of study, solar radiation greater than 8000 kJ/m², etc.
 - **Applying a data imputation technique** as an attempt to reconstruct at least part of the data lost due to data quality problems (see section [Data Imputation](#data-imputation)).
-- **Filtered the stations based on number of observations** as only stations with relevant amount of years of observation were necessary to build the train and test sets. For this filtering, only stations with 7 years worth of valid observations were considered.
+- **Filtering the stations based on number of observations** as only stations with relevant amount of years of observation were necessary to build the train and test sets. For this filtering, only stations with 7 years worth of valid observations were considered.
 - **Reformatting datetime columns** in order standardize the observations and properly adjust the daylight saving time across the years (some of the years in records had an extra daylight saving hour which had to be accounted for; others didn't, which caused inconsistencies).
-- **Adjusting of target variable**, which envolved first filtering the observations to select only a fixed window for the observations, *i.e.* only hourly observations between 7:00 and 18:00 (local time) were selected. 
+- **Adjusting of target variable**, which envolved first filtering the observations to select only a fixed window for the observations, *i.e.* only hourly observations between 7:00 and 18:00 (local time) were selected. After the operations of normalizing daylight saving time and selecting the proper time window, the solar radiation could safely be shifted in one hour ahead to get the associated value for the next hour.
 - **Data normalization** using the [Robust Scaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html).
 - **Applying temporal holdout split** to obtain the train and test sets. Out of the Jan/2001 to Jun/2021 period available when this project was developed, 2001-2018 (inclusve) was selected for training and the remaining data (2019-2021) for testing. After the split, the observations in the training set were shuffled.
 
 
 ### Data Imputation
 
-Given the amount of information lost in missing values, an imputation technique was introduced attempting to artificially reconstruct at least part of the missing data and improve training. As these phenomena are highly dependent on the geographical relation between data colecting points, specially the distance between the stations, the choice was to employ the [Inverse Distance Weighting](https://en.wikipedia.org/wiki/Inverse_distance_weighting) (IDW) for each of the features. The idea behind this is that closer reference values should have a greater influence in the interpolated value that reference points further apart.
+Given the amount of information lost in missing values, an imputation technique was introduced attempting to artificially reconstruct at least part of the missing data and improve training. As these phenomena are highly dependent on the geographical relation between data colecting points, specially the distance between the stations, the choice was to employ the [Inverse Distance Weighting](https://en.wikipedia.org/wiki/Inverse_distance_weighting) (IDW) for each of the features. The idea behind this is that **closer reference values should have a greater influence in the interpolated value that reference points further apart**.
 
 The following pseudo-algorithm explains how the IDW imputation was carried out. When a station `s0` is undergoing IDW imputation we first select a set of `nearby_stations` based on the [Haversine Distance](https://en.wikipedia.org/wiki/Haversine_formula) between `s0` and `all_avaliable_stations`; then for every invalid value of `feature` at a timestamp `t` in `s0`, we look for valid values of `feature` on the same timestamp `t` across all selected `nearby_stations`. When the number valid observations in `nearby_stations` exceeds `min_required_stations_for_imputation`, `feature` is interpolated via IDW using the Haversine Distance as weight.
 
@@ -143,7 +145,7 @@ The following pseudo-algorithm explains how the IDW imputation was carried out. 
 nearby_stations ← ∅
 
 for s ∈ all_available_stations - s do
-    if distance(s, s0) ⩽ maximum_imputting_distance then
+    if distance(s, s0) ⩽ maximum_imputation_distance then
         nearby_station ∪ {s}
     end
 end
@@ -158,16 +160,18 @@ end
 ```
 
 {{< callout type="info" >}}
-For this project this process was conducted adopting a minimum of 3 valid values to interpolate, selecting nearby stations within a maximum distance of 120km.
+For this project this process was conducted adopting a minimum of 3 valid values to interpolate, selecting nearby stations within a maximum distance of 120km. In other words:
+- `maximum_imputation_distance = 120`
+- `min_required_stations_for_imputation = 3`
 {{< /callout >}}
 
-The figure bellow depicts the same process. In this case, $A_{fn}^{(ts_i)}$ is undergoing IDW imputation using the nearby stations $B$, $C$ and $D$. As only the values in $B$ and $C$ for $f_n$ are available at $ts_i$, they will be the ones used to fill the missing $f_n$ value at $A^{(ts_i)}$.
+The figure bellow presents a graphical representation of the same process. In this case, $A_{fn}^{(ts_i)}$ is undergoing IDW imputation using the nearby stations $B$, $C$ and $D$. As only the values in $B$ and $C$ for $f_n$ are available at $ts_i$, they will be the ones used to fill the missing $f_n$ value at $A^{(ts_i)}$. If we adopted `min_required_stations_for_imputation = 3`, as described below the pseudo-algorithm above, then $A_{fn}^{(ts_i)}$ would not have been imputed.
 
 ![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/imputation.png)
 
 ## Modelling Strategy
 
-The proposed ML-based forecasting system is composed of two stacked procedures described below. In each one of these procedures Supervised Leaning techniques have been applied in order to prepare the data and obtain models capable of estimating the solar radiation.
+The proposed ML-based forecasting system is composed of two stacked procedures described below. In each one of these procedures Supervised Leaning techniques have been applied in order to prepare the data and train the models.
 
 {{% steps %}}
 
@@ -175,11 +179,11 @@ The proposed ML-based forecasting system is composed of two stacked procedures d
 
 ![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/overview_p1_borderless.png "Procedure 1: site-specific training schematic view. ")
 
-The first step was to obtain site-specific models trained and tuned with historical meteorological data collected in each one of the collection sites of the area of study. The models and predictions in this procedure are said to be "site-specific" in the sense that, in this stage, no data is shared across stations; all training and tuning carried out in station `s0` is performed only with data from `s0`. This is only possible bacause all stations follow the same standards when recording meteorological data. The dataset used to train the models to predict $\hat{R}_{ts + 1}$, the ratiation for the next hour, followed the given format:
+The first step was to obtain site-specific models trained and tuned with historical meteorological data collected in each one of the collection sites of the area of study. The models and predictions in this procedure are said to be "site-specific" in the sense that, in this stage, no data is shared across stations; all training and tuning carried out in station `s0` is performed only with data from `s0`. This is only possible bacause all stations follow the same standards when recording meteorological data. The dataset used to train the models to predict $\hat{R}_{ts + 1}$, the radiation for the next hour followed the given format:
 
 $$ (ts, B, D, H, P, T, R, W_s, W_d) \rightarrow \hat{R}_{ts + 1} $$
 
-The Machine Learning algorithms used to train the site-specific models are shown below. For each one of the training algorithms hyperparameters search routines also were conducted and the fitted models were all combined into a [Stacking Regressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingRegressor.html). At the end of this step we expect to produce one ensemble of trained models per training site.
+The Machine Learning algorithms used to train the site-specific models are shown below. For each one of the training algorithms hyperparameters search routines also were conducted and the fitted models were all combined into a [Stacking Regressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingRegressor.html). **At the end of this step we expect to produce one ensemble of trained models per meteorological station**.
 
 - [Multi-layer Perceptron](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html) (Dense Neural Network - NN)
 - [Support Vector Machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html) (SVM)
@@ -188,19 +192,19 @@ The Machine Learning algorithms used to train the site-specific models are shown
 - [Random Forests](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html) (RF)
 
 {{< callout type="info" >}}
-During this stage two branches of execution for training and tuning routines were followed for each station: 1) using original data and 2) using imputed data. After the training and tuning of all models using the two distinct datasets, the best model was selected based on the RMSE.
+During this stage two branches of execution for training and tuning routines were followed for each station: 1) using original data and 2) using imputed data. After the training and tuning of all models using the two distinct datasets, the best model was selected based on RMSE.
 {{< /callout >}}
 
 ### Generalization Model
 
 ![](https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/overview_p2_borderless.png "Procedure 2: generalization dataset construction and training scheme.")
 
-In order to generalize the predictions we need to train and tune a single generalization model using as input the predictions of the site-specific models trained in the previous procedure. For this step a new dataset is constructed from the site-specific predictions with the addition of other data to train the generalization model. This new dataset was constructed incorporating for each station the 3-tuple $(d^n, E^n, \hat{R}_{ts_i + 1}^{n})$ in which:
+In order to generalize the predictions we need to train and tune a single generalization model using as input the predictions of the site-specific models trained in the previous procedure. For this step a new dataset is constructed from the site-specific predictions incorporating additional information. This new dataset was constructed incorporating for each station the 3-tuple $(d^n, E^n, \hat{R}_{ts_i + 1}^{n})$ in which:
 - $d^n$ is the Haversine Distance from the generalized station to its $n$-th closest station.
 - $E^n$ is the average between the RMSE and MAE of the estimator in the $n$-th closest station.
 - $\hat{R}_{ts_i + 1}^{n}$ is the estimated value of $R$ at timestamp $ts$ produced by the $n$-th closest station.
 
-**The ideia behind it is that the generalization model should be able to learn the relations envolving distance and "trustworthiness" (measured by the error $E$) of the closest nearby site-specific models when combining their predictions** to produce a generalized prediction. The dataset used to train the generalization model followed the given format ($La_i$ is the latitude and $Lo_i$ of the generalized prediction site):
+The ideia behind it is that **the generalization model should be able to learn the relations involving distance and "trustworthiness" (measured by the error $E$) of the closest nearby site-specific models when combining their predictions** to produce a generalized prediction. The dataset used to train the generalization model followed the given format ($La_i$ is the latitude and $Lo_i$ of the generalized prediction site):
 
 $$
 \bigg(ts_i, La_i, Lo_i,
@@ -209,13 +213,13 @@ $$
 \rightarrow {\psi_{ts + 1}} 
 $$
 
-To prevent noise in this new dataset, the minimum required number of tuples $(d^n, E^n, \hat{R}_{ts_i + 1}^{n})$ was set to 3. Since this dataset was set to accomomdate up to 7 3-tuples, when the number of available 3-tuples was smaller than 7, the remainig "slots" were filled with zeros.
+To prevent noise in this new dataset, the minimum required number of tuples $(d^n, E^n, \hat{R}_{ts_i + 1}^{n})$ was set to 3. Since this dataset was set to accomomdate up to 7 of these 3-tuples, when the number of available 3-tuples was inferior to 7, the remainig "slots" were filled with zeros.
 
 {{< callout type="info" >}}
 Note that:
 
 1. The filter selecting only stations with 7 years of valid retroactive observations (mentioned in section [Preprocessing](#preprocessing)) was by-passed in this step as, despite not having available observations for the first procedure training, the observed values were still relevant when training and assessing the generalization model.
-1. In case the station at $(La_i, Lo_i)$ was used in the first step (*i.e.* it has a model associated to it), its predictions were not used to generate this dataset as the distance $d_i$ would be $0$. In other words, we do not use predictions from the same site $s_i$ when generating the training dataset for this second step.
+1. When generating the dataset rows associated to a prediction site $s_i$, all predictions from this site coming from the previous stage were discarded as the distance between $s_i$ and $(La_i, Lo_i)$ is 0; so the set of selected models always considers the closest stations except the one exactly at $s_i$.
 {{< /callout >}}
 
 {{% /steps %}}
@@ -236,7 +240,7 @@ The empirical model used in this project corresponds to the CPRG model, a decomp
 
 ### IDW-based Interpolation
 
-This method is very similar to the [Data Imputation](#data-imputation) technique used for the data imputation in the first procedure, however, instead of using IDW to interpolate values of missing features, we are interpolating predictions generated the site-specific models. As in the generalization model, this baseline model also incorporates the measure of "trustworthiness" of site-specific models by adding to the weights the error from the estimators. As a reference, the following equation shows the calculation of a weight ($e_{s_i}$ is the best estimator for the site $s_i$; $s_0$ is the site for which the predictions are generated and $d$ is the Haversine Distance).
+This method is very similar to the [Data Imputation](#data-imputation) technique used for the data imputation in the first procedure, however, instead of using IDW to interpolate values of missing features, we are interpolating predictions generated the site-specific models. As in the generalization model, this baseline model also incorporates the measure of "trustworthiness" of site-specific models by adding to the weights the error from the estimators. As a reference, the following equation shows the calculation of a weight of the model associated to a station $s_i$ with respect to the station $s_0$ ($e_{s_i}$ is the best estimator for the site $s_i$ and $d$ is the Haversine Distance).
 
 $$
 w_i(s_0,s_i) = \dfrac{1}{d(s_0, s_1)^2} \bigg( \dfrac{\text{RMSE}(e_{s_i}) + \text{MAE}(e_{s_i})}{2} \bigg)^{-1}
@@ -254,7 +258,7 @@ Note that this method was only used as a baseline for the generalization model.
 
 ## Results
 
-Given the configuration in the modelling strategy, the site-specific models and the generalization model were assessed sepately. Performance was measured using the [Root Mean Squared Error](https://en.wikipedia.org/wiki/Root-mean-square_deviation) (RMSE), [Mean Absolute Error](https://en.wikipedia.org/wiki/Mean_absolute_error) (MAE), the [Coefficient of Determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) (R²) and the Mean Bias Error (MBE). The values in the tables in upcoming sub-sections correspond to the mean ($\bar{x}$) and standard deviation of metrics values in each meteorological station comparing the results of the proposed method (ML) against its baselines.
+Given the configuration in the modelling strategy, the site-specific models and the generalization model were evaluated sepately. In both cases performance was measured using the [Root Mean Squared Error](https://en.wikipedia.org/wiki/Root-mean-square_deviation) (RMSE), [Mean Absolute Error](https://en.wikipedia.org/wiki/Mean_absolute_error) (MAE), the [Coefficient of Determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) (R²) and the Mean Bias Error (MBE). The values in the tables in upcoming sub-sections correspond to the mean ($\bar{x}$) and standard deviation of metrics values in each meteorological station comparing the results of the proposed method (ML) against its baselines.
 
 ### Site-specific Models
 
