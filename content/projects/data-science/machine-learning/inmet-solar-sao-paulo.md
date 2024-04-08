@@ -1,6 +1,6 @@
 +++
 title = 'Multi-ensemble based approach for Short-term Solar Radiation Forecasting'
-description = "A"
+description = 'Machine Learning models to predict solar radiation from meteorological data.'
 date = 2024-03-28T17:29:05-03:00
 type = 'blog'
 tags = ['machine-learning', 'solar-energy']
@@ -13,7 +13,7 @@ This project consists of the development and implemetation of a modeling approac
 
 This project was originally inspired by [this paper](https://www.sciencedirect.com/science/article/abs/pii/S0960148115305747?via%3Dihub) which showcases a similar approach for solar radiation prediction in Australia, where energy trading markets would benefit from intelligent systems capable of forecasting energy offer from photovoltaic solar predictions. Unfortunatelly, such markets are not available in Brazil as most of the electric energy comes from hydroelectric dams.
 
-The implementation for this project was done in Python3 with common Data Science libraries such as [Pandas]()https://pandas.pydata.org/, [scikit-learn](https://scikit-learn.org/stable/), [matplotlib](https://matplotlib.org/), [numpy](https://numpy.org/), [GeoPandas](https://geopandas.org/en/stable/) and others.
+The implementation for this project was done in Python3 with common Data Science libraries such as [Pandas](https://pandas.pydata.org/), [Scikit-Learn](https://scikit-learn.org/stable/), [Matplotlib](https://matplotlib.org/), [Numpy](https://numpy.org/), [GeoPandas](https://geopandas.org/en/stable/) and others.
 
 {{< cards >}}
   {{< card link="https://github.com/lfenzo/Impostor.jl" icon="github" title="Implementation" >}}

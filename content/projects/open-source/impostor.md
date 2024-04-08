@@ -1,6 +1,6 @@
 +++
-title = 'Impostor - the Highly Versatile Syntetic Data Generator'
-description = "A"
+title = 'Impostor.jl - the Highly Versatile Syntetic Data Generator'
+description = "The Julia library that generates various types of synthetic data"
 date = 2024-03-28T17:29:05-03:00
 type = 'blog'
 tags = ['open-source', 'package', 'julia', 'synthetic data']

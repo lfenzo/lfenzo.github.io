@@ -1,0 +1,6 @@
+[submodule "hugo-component-tnd-timeline"]
+	path = hugo-component-tnd-timeline
+	url = https://github.com/theNewDynamic/hugo-component-tnd-timeline.git
+[submodule "components/timeline"]
+	path = components/timeline
+	url = https://github.com/theNewDynamic/hugo-component-tnd-timeline.git
