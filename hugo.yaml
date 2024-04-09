@@ -19,8 +19,8 @@ markup:
 
 menu:
   main:
-    - name: About
-      pageRef: /about
+    - name: Home
+      pageRef: /
       weight: 1
     - name: Experience
       pageRef: /experience
