@@ -1,6 +1,6 @@
 baseURL: https://lfenzo.github.io/
 languageCode: en-us
-title: Personal Page
+title: Enzo LF
 
 module:
   imports:
