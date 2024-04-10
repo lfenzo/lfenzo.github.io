@@ -22,7 +22,7 @@ type = 'blog'
     >}}
     {{<
         card link="./open-source/impostor" 
-        subtitle="The highly versatile synthetic data generator"
+        subtitle="The highly versatile synthetic data generator for the Julia language."
         title="Impostor.jl"
         method="Fit"
         image="https://julialang.org/assets/images/julia-open-graph.png"
@@ -35,11 +35,15 @@ type = 'blog'
     >}}
 {{< /cards >}}
 
+<!--
+TODO: uncomment this part when the support for taxonomies in the theme is functional
+
 ## Search for..
 
 {{< cards >}}
   {{< card link="../tags" icon="tag" title="Tags" >}}
   {{< card link="../categories" icon="collection" title="Categories" >}}
 {{< /cards >}}
+-->
 
 ## All Projects

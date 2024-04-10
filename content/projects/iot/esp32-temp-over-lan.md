@@ -4,6 +4,7 @@ description = 'A simples prove of concept to send esp32 collected data over LAN 
 date = 2024-03-28T17:29:05-03:00
 type = 'blog'
 tags = ['IoT']
+draft = true
 +++
 
 ## Objective
