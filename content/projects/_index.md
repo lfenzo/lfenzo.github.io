@@ -42,4 +42,4 @@ type = 'blog'
   {{< card link="../categories" icon="collection" title="Categories" >}}
 {{< /cards >}}
 
-## All Posts
+## All Projects

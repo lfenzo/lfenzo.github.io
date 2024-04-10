@@ -45,7 +45,8 @@ toc = false
     <div class="column">
         <figure>
         <img src="./sky-and-water-ii.jpeg">
-        <figcaption>"Sky and Water II" by M. C. Escher (xylography, 1938)</figcaption>
+        <figcaption><i>"Sky and Water II"</i> by M. C. Escher (lithography, 1938)</figcaption>
         </figure>
     </div>
 </div>
+

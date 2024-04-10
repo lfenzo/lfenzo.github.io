@@ -36,12 +36,14 @@ menu:
       pageRef: /contact
       weight: 3
 
+
 params:
 
   footer:
     enable: true
     displayCopyright: true
     displayPoweredBy: false
+    text: "Your custom footer text here"
     width: normal
 
   blog:
