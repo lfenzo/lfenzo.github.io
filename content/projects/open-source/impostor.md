@@ -23,6 +23,8 @@ Some of the interesting features present in Impostor are:
 A couple of noteworthy differences between Impostor.jl and [Faker.jl](https://github.com/neomatrixcode/Faker.jl) are highlighted [here](https://discourse.julialang.org/t/ann-impostor-jl-a-highly-versatile-synthetic-data-generator/106166/3).
 {{< /callout >}}
 
+<br>
+
 {{< cards >}}
   {{< card link="https://github.com/lfenzo/Impostor.jl" icon="github" title="Source Code" >}}
   {{< card link="https://lfenzo.github.io/Impostor.jl/stable/" icon="book-open" title="Documentation" >}}
@@ -32,100 +34,51 @@ A couple of noteworthy differences between Impostor.jl and [Faker.jl](https://gi
 
 ## Motivation
 
-During a couple courses during my graduation I found myself in a situation where I needed a small script to quickly generate sample tables for a database or generate enough tabular data to perform a load test in some service. After my third rewrite of some of such scripts I decided it was time to have something a bit more structured and the idea of a Julia library for that seemed very appealing not only for that apparent "gap" in the functionalities I needed from similar libraries in the Julia ecosystem at the time, but also as an opportunity to learn the process of developing and publishing a Julia package.
+In a couple courses during my graduation I found myself in a situation where I needed a small script to quickly generate sample tables for a database or generate enough tabular data to perform a load test in some service. After my third rewrite of some of such scripts I decided it was time for something a bit more structured and the idea of a Julia library for that seemed very appealing not only for that apparent "gap" in the functionalities I needed from similar libraries in the Julia ecosystem at the time, but also as an opportunity to learn the process of developing and publishing a Julia package.
 
-As it turns out, it is surprisingly simple to have a package published in the Julia General Registry, provided that you follow the instructions in the [Creating Packages](https://pkgdocs.julialang.org/v1/creating-packages/) page in the Pkg.jl stdlib docs. I was surprised to know that the structure was very straight forward and the publishing process was very simple and direct.
+As it turns out, it is surprisingly simple to have a package published in the Julia General Registry, provided that you follow the instructions in the [Creating Packages](https://pkgdocs.julialang.org/v1/creating-packages/) page in the Pkg.jl stdlib docs. I was surprised to know that the structure was very straight forward and the publishing process was very simple and direct. For more info on registering Julia packages check [this link](https://pkgdocs.julialang.org/v1/creating-packages/#Registering-packages).
 
-## Examples
+## Example
 
-As Impostor supports outputting the generated tables into a sink object, we are also importing the [DataFrames](https://github.com/JuliaData/DataFrames.jl) package in order use the `DataFrame` type.
+Instead of giving a full description of step by step examples building up on complexity (which would only duplicate its [documentation](https://lfenzo.github.io/Impostor.jl/stable/)) I'll provide a more practical use case to show some of its capabilities. Suppose we are mocking some sort of registration system which drivers' licenses information. The snippet bellow with the Impostor.jl code shows how that would be accomplished.
 
-```julia
+```julia {linenos=table, filename="generate_my_data.jl"}
 using Impostor
 using DataFrames
+
+function generate_mocked_rows(n_rows::Integer) :: DataFrame
+    locale = ["en_US"]
+    formats = [
+        :firstname,
+        :surname,
+        :occupation,
+        :birthdate,
+        :state,
+        :state_code,
+        :city,
+        :street,
+        :postcode,
+    ]
+
+    template = ImpostorTemplate(formats)
+
+    my_data = template(n_rows, DataFrame; locale)
+    my_data[:, :license] = render_alphanumeric("^^^-#^##", n_rows)
+    my_data[:, :year] = rand(2014:1:2024, n_rows)
+
+    return my_data
+end
 ```
-
-The easiest way to get started is to generate a single entry from the *[generator functions](https://lfenzo.github.io/Impostor.jl/stable/#Generator-Functions)*. The value listed below is a *valid card number* generated from using the same algorithms used to verify the validity of a credit card number.
+By calling this `generate_mocked_rows` we have the following:
 ```julia
-credit_card_number(; formatted = true)
-# "4767-6731-1326-5309"
-```
-
-But if you need to generate a more generic sequence of characters you may want to use the [`render_alphanumeric`](https://lfenzo.github.io/Impostor.jl/stable/utilities/templatization/#Impostor.render_alphanumeric) function. We could, for example, generate license plates following a pre-defined template.
-```julia
-[render_alphanumeric("^^-###-^^^") for _ in 1:5]
-# 5-element Vector{String}:
-#  "MM-609-QRY"
-#  "OR-389-EBT"
-#  "CF-245-UEI"
-#  "JF-287-MMK"
-#  "MV-332-RIC"
-```
-
-
-```julia
-template = ImpostorTemplate([:firstname, :surname, :country_code, :state, :city]);
-
-template(3)
-# Dict{Any, Any} with 5 entries:
-#   :country_code => Union{Missing, String3}[String3("USA"), String3("BRA"), Stri…
-#   :state        => Union{Missing, String31}[String31("Georgia"), String31("São …
-#   :firstname    => ["Curtis", "Grant", "Jerry"]
-#   :surname      => ["Edwards", "Benitez", "Cochran"]
-#   :city         => String31["Atlanta", "São Bernardo", "Ibiúna"]
-
-template(5, DataFrame; locale = ["pt_BR", "en_US"])  # optionally provide a `sink` type
-# 5×5 DataFrame
-#  Row │ firstname   surname  country_code  state         city
-#      │ String      String   String3       String31      String31
-# ─────┼─────────────────────────────────────────────────────────────
-#    1 │ Stacie      Walter   USA           Vermont       Montpelier
-#    2 │ Alexa       Walsh    BRA           São Paulo     Sorocaba
-#    3 │ Kirk        Joseph   USA           Maryland      Baltimore
-#    4 │ Jade        Freeman  BRA           Minas Gerais  Betim
-#    5 │ Alexandria  Garcia   USA           Colorado      Denver
-```
-
-
-
-To set the locale, use the `locale` keyword argument.
-
-```julia
-surname(4; locale = ["pt_BR"])
-# 4-element Vector{String}:
-#  "Feranndes"
-#  "Pereira"
-#  "Camargo"
-#  "Pereira"
-
-firstname(["M"], 4)
-# 4-element Vector{String}:
-#  "Charles"
-#  "Zacharias"
-#  "Paul"
-#  "Charles"
-
-city(["BRA", "USA"], 4; level=:country_code)
-# 4-element Vector{String}:
-#  "Curitiba"
-#  "Los Angeles"
-#  "São Paulo"
-#  "Rio de Janeiro"
-
-address(["BRA", "USA", "BRA", "USA"]; level = :country_code)
-# 4-element Vector{String}:
-#  "Avenida Paulo Lombardi 1834, Ba" ⋯ 25 bytes ⋯ "84-514, Porto Alegre-RS, Brasil"
-#  "Abgail Smith Alley, Los Angeles" ⋯ 42 bytes ⋯ "ornia, United States of America"
-#  "Avenida Tomas Lins 4324, (Apto " ⋯ 23 bytes ⋯ "orocaba - 89457-346, SP, Brasil"
-#  "South-side Street 1st Floor, Li" ⋯ 52 bytes ⋯ "as-AR, United States of America"
-
-
-
-template_string = "I know firstname surname, this person is a(n) occupation";
-
-render_template(template_string)
-# "I know Charles Jameson, this person is a(n) Mathematician"
-
-println("My new car plate is $(render_alphanumeric("^^^-####"))")
-# My new car plate is TXP-9236
+generate_mocked_rows(5)
+# 5×11 DataFrame
+#  Row │ firstname  surname    occupation     birthdate   state           state_code  city            street             postcode     licence   year  
+#      │ String     String     String         String      String31        String3     String31        String             String       String    Int64 
+# ─────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#    1 │ Stephen    Friedman   Accountant     1946-05-06  Utah            UT          Salt Lake City  Daugherty Avenue   363-646-702  GLU-2A12   2014
+#    2 │ Dorothy    Mann       Mathematician  1969-08-29  New York        NY          New York City   Oconnor Road       863-875-466  WHN-0M46   2019
+#    3 │ Andrew     Espinoza   Phisician      1947-04-16  South Carolina  SC          Charleston      Olivia Le Alley    541-284-571  UQJ-4H86   2017
+#    4 │ Shawn      Patterson  Accountant     1946-05-16  Iowa            IA          Des Moines      Callahan Road      549-716-942  HCN-4H78   2016
+#    5 │ Barry      Moran      Phisician      1959-11-25  Alabama         AL          Montgomery      Peterson Driveway  075-858-427  AYA-3L14   2019
 ```
