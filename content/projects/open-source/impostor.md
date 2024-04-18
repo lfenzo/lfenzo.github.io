@@ -38,9 +38,11 @@ In a couple courses during my graduation I found myself in a situation where I n
 
 As it turns out, it is surprisingly simple to have a package published in the Julia General Registry, provided that you follow the instructions in the [Creating Packages](https://pkgdocs.julialang.org/v1/creating-packages/) page in the Pkg.jl stdlib docs. I was surprised to know that the structure was very straight forward and the publishing process was very simple and direct. For more info on registering Julia packages check [this link](https://pkgdocs.julialang.org/v1/creating-packages/#Registering-packages).
 
-## Example
+## Examples
 
-Instead of giving a full description of step by step examples building up on complexity (which would only duplicate its [documentation](https://lfenzo.github.io/Impostor.jl/stable/)) I'll provide a more practical use case to show some of its capabilities. Suppose we are mocking some sort of registration system which drivers' licenses information. The snippet bellow with the Impostor.jl code shows how that would be accomplished.
+Instead of giving a full description of step by step examples building up on complexity (which would only duplicate its [documentation](https://lfenzo.github.io/Impostor.jl/stable/)) I'll provide a more practical use case to show some of its capabilities. Suppose we are mocking some sort of registration system with driver licenses information. The code snippets bellow shows concise ways to do it with Impostor.
+
+### Impostor Templates
 
 ```julia {linenos=table, filename="generate_my_data.jl"}
 using Impostor
@@ -69,7 +71,8 @@ function generate_mocked_rows(n_rows::Integer) :: DataFrame
     return my_data
 end
 ```
-By calling this `generate_mocked_rows` we have the following:
+
+Since we are outputing the resulting table to a dataframe, we must also import the DataFrames.jl package on our top-level scope. Now, by calling this `generate_mocked_rows`, we have the following table:
 ```julia
 generate_mocked_rows(5)
 # 5×11 DataFrame
@@ -81,4 +84,49 @@ generate_mocked_rows(5)
 #    3 │ Andrew     Espinoza   Phisician      1947-04-16  South Carolina  SC          Charleston      Olivia Le Alley    541-284-571  UQJ-4H86   2017
 #    4 │ Shawn      Patterson  Accountant     1946-05-16  Iowa            IA          Des Moines      Callahan Road      549-716-942  HCN-4H78   2016
 #    5 │ Barry      Moran      Phisician      1959-11-25  Alabama         AL          Montgomery      Peterson Driveway  075-858-427  AYA-3L14   2019
+```
+
+### General Purpose API
+
+If you prefer to have more control over the data generation process, here is the same example but without `ImpostorTemplate`s, *i.e.* using only the general purpuse *generator-functions*:
+
+```julia {linenos=table, filename="generate_my_data.jl", hl_lines=[13, 14]}
+using Impostor
+using DataFrames
+
+function generate_mocked_without_template(n_rows::Integer)
+    my_data = DataFrame()
+
+    my_data[:, :firstname] = firstname(n_rows)
+    my_data[:, :surname] = surname(n_rows)
+    my_data[:, :occupation] = occupation(n_rows)
+    my_data[:, :birthdate] = birthdate(n_rows)
+
+    my_data[:, :state_code] = state_code(n_rows)
+    my_data[:, :state] = state(my_data[:, :state_code]; level = :state_code)
+    my_data[:, :city] = city(my_data[:, :state_code]; level = :state_code)
+
+    my_data[:, :street] = street(n_rows)
+    my_data[:, :postcode] = postcode(n_rows)
+
+    my_data[:, :licence] = render_alphanumeric("^^^-#^##", n_rows)
+    my_data[:, :year] = rand(2014:1:2024, n_rows)
+
+    return my_data
+end
+```
+
+Note that the lines 13 and 14 (highlighted above) receive as input **a *mask* specifying the state codes in order to generate the matching states names and codes** (number of generated rows is assumed to be the same as `length(mask)`). If for some reason this matching is not necessary/important, you may as well just call the the same functions `state` and `city` passing `n_rows` as the only argument and Julia will dispatch the corresponding methods to generate single data series without filters.
+
+```julia
+generate_mocked_without_template(5)
+# 5×11 DataFrame
+#  Row │ firstname  surname  occupation         birthdate   state_code  state           city        street                   postcode     licence   year  
+#      │ String     String   String             String      String      String          String      String                   String       String    Int64 
+# ─────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#    1 │ Sonia      Lawson   Sociologist        2011-05-09  CO          Colorado        Denver      West Road                024-483-265  PDC-4H97   2015
+#    2 │ Shelly     Walter   Anthropologyst     2005-04-01  WV          West Virginia   Charleston  Tran Driveway            623-875-415  FIC-8B04   2019
+#    3 │ Lacey      Marks    Sociologist        2020-02-01  GA          Georgia         Atlanta     Mason Valencia Alley     943-370-619  PDW-2I72   2020
+#    4 │ Lance      Day      Aircraft Engineer  2004-01-12  AL          Alabama         Montgomery  Kent Road                002-914-648  KPE-0J59   2021
+#    5 │ Gregg      Walsh    Sociologist        1969-08-05  SC          South Carolina  Columbia    Katherine Huff Driveway  058-703-987  DJM-5F65   2018
 ```

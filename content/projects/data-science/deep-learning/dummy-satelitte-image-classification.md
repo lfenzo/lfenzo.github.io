@@ -4,15 +4,22 @@ description = "A simple project using computer vision techniques with deep learn
 date = 2024-03-28T17:29:05-03:00
 type = 'blog'
 tags = ['deep-learning']
-draft = true
 +++
 
-The objective of this project was to compare the difference between the `Adam`, `SGD` and
-`RMSprop` optimizers in a task of image classification with neural networks trained using PyTorch.
+## Introduction
 
-- **Problem domain(s):** multi-class image classification.
-- **Model architecture(s)**: Resnet (defined and trained from scratch).
-- **Optimizer(s)**: Adam, Stochastic Gradient Descent and RMSProp.
+This project is the equivalent of a "hello world" program in the computer vison realm targetting a very simple image classification task in which each image is associated to a label. During this project, apart from implementing the data preparation, training and evaluation routines; 3 different optimizers (namely the `Adam`, `SGD` and `RMSprop` optimizers) were tested during the project. Implementation was carried out with PyTorch and Torchvision
+
+- **Problem domain(s):** multi-class single-label image classification.
+- **Model architecture(s)**: [ResNet](https://arxiv.org/abs/1512.03385) (defined and trained from scratch).
+- **Optimizer(s)**: Adam, Stochastic Gradient Descent (SGD) and RMSProp.
+
+<br>
+
+{{< cards >}}
+  {{< card link="https://github.com/lfenzo/dummy-satellite-image-classification" icon="github" title="Source Code" >}}
+  {{< card link="https://www.kaggle.com/datasets/mahmoudreda55/satellite-image-classification?resource=download" icon="database" title="Dataset Source" >}}
+{{< /cards >}}
 
 ## Dataset
 
@@ -29,15 +36,16 @@ The figure below depicts examples for these images as well as their respective c
 
 The data can be freely downloaded in the following [Kaggle dataset link](https://www.kaggle.com/datasets/mahmoudreda55/satellite-image-classification?resource=download).
 
-## Performance
+## Approach
 
-<table>
-    <tr>
-        <td><img src = "./images/learning_curves.png"></td>
-        <td><img src = "./images/confusion_matrix.png"></td>
-    </tr>
-</table>
+## Results
 
------------------
+### Performance
 
-![](./images/missclassifications_per_class.png)
+![](https://raw.githubusercontent.com/lfenzo/dummy-satellite-image-classification/main/images/learning_curves.png)
+
+### Confusion Matrix
+![](https://raw.githubusercontent.com/lfenzo/dummy-satellite-image-classification/main/images/confusion_matrix.png)
+
+### Misclassification Examples
+![](https://raw.githubusercontent.com/lfenzo/dummy-satellite-image-classification/main/images/missclassifications_per_class.png)
