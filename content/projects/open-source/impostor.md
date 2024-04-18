@@ -88,7 +88,7 @@ generate_mocked_rows(5)
 
 ### General Purpose API
 
-If you prefer to have more control over the data generation process, here is the same example but without `ImpostorTemplate`s, *i.e.* using only the general purpuse *generator-functions*:
+If you prefer to have more control over the data generation process, here is the same example but without `ImpostorTemplate`s, *i.e.* using only the general purpuse [*generator-functions*](https://lfenzo.github.io/Impostor.jl/stable/#Concepts):
 
 ```julia {linenos=table, filename="generate_my_data.jl", hl_lines=[13, 14]}
 using Impostor
