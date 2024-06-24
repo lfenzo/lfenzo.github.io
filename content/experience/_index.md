@@ -8,6 +8,10 @@ toc = false
 
 #### Mid-Level Data Scientist (May/2024 - present)
 
+- Designed and implemented a Python package for data analysis on GitLab repositories data to assess efficience and development
+cost.
+- Analyzed data from behavioral projection algorithms in order to ensure quality and consistency.
+
 ### [Big Data S/A](https://www.linkedin.com/company/big-data-brasil-/)
 
 ##### Junior Data Scientist (Oct/2022 - Mar/2024)
