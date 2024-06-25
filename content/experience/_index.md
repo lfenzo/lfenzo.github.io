@@ -8,7 +8,7 @@ toc = false
 
 #### Mid-Level Data Scientist (May/2024 - present)
 
-- Designed and implemented a Python package for data analysis on GitLab repositories data to assess efficience and development
+- Designed and implemented a Python package for data analysis on GitLab repositories data to assess efficiency and development
 cost.
 - Analyzed data from behavioral projection algorithms in order to ensure quality and consistency.
 
