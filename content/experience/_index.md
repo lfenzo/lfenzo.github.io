@@ -15,7 +15,8 @@ cost.
 ### [Big Data S/A](https://www.linkedin.com/company/big-data-brasil-/)
 
 ##### Junior Data Scientist (Oct/2022 - Mar/2024)
-As a Junior Data Scientist I worked on client-specific recommendation system projects as well as the Forecast and Product Operations divisions in the company.
+As a Junior Data Scientist, transitioned to the Forecast and Product Operations divisions, where I developed and maintained Machine
+Learning-centered pipelines.
 - Contributed to the development of a recommendation system for a market-leading company in the civil construction sector.
 - Idealized and implemented a quality assurance framework responsible for automating artifacts validation processes.
 - Contributed to codebases with new features, code reviews, maintenance, refactoring and testing.
@@ -23,7 +24,7 @@ As a Junior Data Scientist I worked on client-specific recommendation system pro
 - Orchestrated ETL and Machine Learning pipelines with Apache Airflow.
 
 ##### Data Science Intern (Jan/2022 - Set/2022)
-Developed a price-elasticity modeling approach through Panel Data Regression and Supervised Machine Learning for products of a market-leading company in the civil construction sector. The developed modeling technique was applied to models in production to incorporate the behavior of market price dynamics and adjust item recommendations.
+Developed a price-elasticity modeling approach through Panel Data Regression and Supervised Machine Learning for products of a market-leading company in the civil construction sector. This technique was applied to models in production to incorporate the behavior of market price dynamics and adjust item recommendations.
 
 ### [FAPESP - Fundação de Amparo à Pesquisa do Estado de São Paulo](https://fapesp.br/)
 ##### Researcher in Applied Machine Learning (Sep/2020 - Sep/2021)
