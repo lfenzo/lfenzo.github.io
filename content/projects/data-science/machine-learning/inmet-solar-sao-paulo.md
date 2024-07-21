@@ -16,7 +16,7 @@ This project was originally inspired by [this paper](https://www.sciencedirect.c
 The implementation for this project was done in Python3 with common Data Science libraries such as [Pandas](https://pandas.pydata.org/), [Scikit-Learn](https://scikit-learn.org/stable/), [Matplotlib](https://matplotlib.org/), [Numpy](https://numpy.org/), [GeoPandas](https://geopandas.org/en/stable/) and others.
 
 {{< cards >}}
-  {{< card link="https://github.com/lfenzo/Impostor.jl" icon="github" title="Implementation" >}}
+  {{< card link="https://github.com/lfenzo/ml-solar-sao-paulo" icon="github" title="Implementation" >}}
   {{< card link="https://bv.fapesp.br/pt/bolsas/193480/previsao-de-irradiacao-solar-para-sistemas-fotovoltaicos-utilizando-machine-learning-uma-abordagem/" icon="link" title="Funding Agency link" >}}
   {{< card link="https://github.com/lfenzo/ml-solar-sao-paulo/blob/8fc0a0e3f9e1c349a054ac95076ecf5930daf1ce/doc/paper.pdf" icon="book-open" title="Paper" >}}
 {{< /cards >}}

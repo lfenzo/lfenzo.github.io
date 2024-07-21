@@ -22,27 +22,18 @@ Fusion is a dynamic and visually appealing dark colorscheme plugin for [Neovim](
 
 For more installation instructions and other details, visit the [`fusion.nvim` repository](https://github.com/lfenzo/fusion.nvim).
 
-## Gallery
+<br>
 
-<table>
-  <tr>
-    <td><img src="python1.png" width="100%"/></td>
-    <td><img src="python2.png" width="100%"/></td>
-  </tr>
-  <tr>
-    <td><img src="c1.png" width="100%"/></td>
-    <td><img src="c2.png" width="100%"/></td>
-  </tr>
-  <tr>
-    <td><img src="c3.png" width="100%"/></td>
-    <td><img src="go1.png" width="100%"/></td>
-  </tr>
-  <tr>
-    <td><img src="go2.png" width="100%"/></td>
-    <td><img src="javascript.png" width="100%"/></td>
-  </tr>
-  <tr>
-    <td><img src="makefile.png" width="100%"/></td>
-    <td><img src="markdown.png" width="100%"/></td>
-  </tr>
-</table>
+# Gallery
+
+![](python1.png)
+![](python2.png)
+![](c1.png)
+![](c2.png)
+![](c3.png)
+![](go1.png)
+![](go2.png)
+![](javascript.png)
+![](makefile.png)
+![](markdown.png)
+![](rst.png)
