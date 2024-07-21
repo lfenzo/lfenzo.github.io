@@ -28,9 +28,9 @@ type = 'blog'
         image="https://julialang.org/assets/images/julia-open-graph.png"
     >}}
     {{<
-        card link="./open-source/neovim-fusion/neovim-fusion" 
+        card link="open-source/neovim-fusion"
         subtitle="The redioactive neovim colorscheme (beware of the radiation)"
-        title="Fusion.nvim"
+        title="Neovim Fusion"
         image="https://raw.githubusercontent.com/lfenzo/fusion.nvim/main/img/cover.png"
     >}}
 {{< /cards >}}
