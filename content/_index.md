@@ -31,9 +31,9 @@ toc = false
 <div class="container">
     <div class="column">
         <p>Computer Science BSc., graduated from the <a href="https://www.ufscar.br/">Federal University of São Carlos</a> in 2022, I've worked as a Data Scientist in various scenarios such as data analysis, data modeling, software development in data and machine learning pipelines, designing and builing software tools and workflow automation/orchestration.</p>
-        <p>Although most of my effort is centered around the Artificial Intelligence area, I also enjoy studying and working on topics such as process automatization, software development, IoT, renewable energy, stock market, linguistics, astronomy and contributing to open-source projects.</p>
+        <p>Although most of my effort is centered around Artificial Intelligence, I also enjoy studying and working on topics such as process automatization, software development, IoT, renewable energy, stock market, linguistics, astronomy and contributing to open-source projects.</p>
         <br>
-        <i>I like to design and automate things.</i>
+        <p style="text-align: right;"><i>The best way to predict the future is to invent it.</i> — <b>Alan C. Kay</b></p>
         <br>
         {{< cards >}}
             {{< card title="Experience" link="experience" icon="briefcase" >}}
