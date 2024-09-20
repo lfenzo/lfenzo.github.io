@@ -1,8 +1,8 @@
 +++
 title = 'Multi-ensemble based approach for Short-term Solar Radiation Forecasting'
-description = 'Machine Learning models to predict solar radiation from meteorological data.'
+description = "This project focuses on developing a machine learning-based approach for solar radiation forecasting using historical meteorological data from INMET, Brazil's National Meteorology Institute. Implemented in Python, the project involves data processing, model training, and analysis, resulting in a full ML pipeline to predict solar radiation intensity. The goal was to estimate energy yield from solar panels, with data imputation and a stacked modeling strategy improving prediction accuracy."
 date = 2024-03-28T17:29:05-03:00
-type = 'blog'
+type = 'docs'
 tags = ['machine-learning', 'solar-energy']
 math = true
 +++
@@ -476,7 +476,7 @@ Another interesting fact was observed plotting the performance with respect to t
 Note that the values of the CPRG model are different from the ones in the previous procedure (even though the method is the same) as a greater number of stations were used during performance assessment for the second procedure.
 {{< /callout >}}
 
-## Conclusion
+## Conclusions
 
 Some interesting conclusions from this project:
 

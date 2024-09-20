@@ -8,42 +8,44 @@ type = 'blog'
 
 {{< cards >}}
     {{<
-        card link="./data-science/machine-learning/inmet-solar-sao-paulo" 
-        subtitle="Machine Learning models to predict solar radiation."
+        card link="deep-learning/info-summarization-app" 
+        title="Multimodal Summarization App"
+        subtitle="LangChain-powered multi-format deployable summarization application."
+        method="Crop"
+        image=""
+    >}}
+    {{<
+        card link="deep-learning/summarization-suite" 
+        title="Summarization POC Suite"
+        subtitle="Series of POC for information summarization in different formats."
+    >}}
+    {{<
+        card link="machine-learning/inmet-solar-sao-paulo" 
         title="Multi-ensemble based approach for Short-term Solar Radiation Forecasting"
+        subtitle="Machine Learning models to predict solar radiation."
         method="Crop"
         image="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png"
     >}}
     {{<
-        card link="./data-science/deep-learning/dummy-satelitte-image-classification" 
-        subtitle="Deep Learning models to classify satellite images"
+        card link="deep-learning/dummy-satelitte-image-classification" 
         title="Dummy Satellite Image Classification"
-        image="https://media.npr.org/assets/img/2023/11/14/gettyimages-1725899216_slide-831a38e81d89cf08a964fbe5daa1abc8742af405-s1100-c50.jpg"
+        subtitle="Deep Learning models to classify satellite images"
+        image="https://eos.com/wp-content/uploads/2021/11/Puerto-Rico.jpg.webp"
     >}}
     {{<
-        card link="./open-source/impostor" 
-        subtitle="The highly versatile synthetic data generator for the Julia language."
+        card link="open-source/impostor" 
         title="Impostor.jl"
+        subtitle="The highly versatile synthetic data generator for the Julia language."
         method="Fit"
         image="https://julialang.org/assets/images/julia-open-graph.png"
     >}}
     {{<
         card link="open-source/neovim-fusion"
-        subtitle="The redioactive neovim colorscheme (beware of the radiation)"
         title="Neovim Fusion"
-        image="https://raw.githubusercontent.com/lfenzo/fusion.nvim/main/img/cover.png"
+        subtitle="The redioactive neovim colorscheme (beware of the radiation)"
+        image="open-source/neovim-fusion/c2.png"
     >}}
 {{< /cards >}}
 
-<!--
-TODO: uncomment this part when the support for taxonomies in the theme is functional
 
-## Search for..
-
-{{< cards >}}
-  {{< card link="../tags" icon="tag" title="Tags" >}}
-  {{< card link="../categories" icon="collection" title="Categories" >}}
-{{< /cards >}}
--->
-
-## All Projects
+## Project Domains
