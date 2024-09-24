@@ -1,14 +1,14 @@
 +++
 title = 'Projects'
 date = 2024-03-28T17:29:05-03:00
-type = 'blog'
+toc = false
 +++
 
-## Featured Projects
+### Featured
 
 {{< cards >}}
     {{<
-        card link="deep-learning/info-summarization-app" 
+        card link="deep-learning/multimodal-summarization-app" 
         title="Multimodal Summarization App"
         subtitle="LangChain-powered multi-format deployable summarization application."
         method="Crop"
@@ -47,5 +47,27 @@ type = 'blog'
     >}}
 {{< /cards >}}
 
+### Domains
 
-## Project Domains
+{{< cards >}}
+    {{<
+        card link="deep-learning" title="Deep Learning"
+        subtitle="Computer Visin, LLMs, etc"
+    >}}
+    {{<
+        card link="machine-learning" title="Machine Learning"
+        subtitle="Tabular data regression, classification, etc."
+    >}}
+    {{<
+        card link="open-source" title="Deep Learning"
+        subtitle="Software tools, programming language libraries, etc"
+    >}}
+    {{<
+        card link="iot" title="IoT"
+        subtitle="Arduino, sensor measurements, etc"
+    >}}
+    {{<
+        card link="all-projects" title="All Projects"
+        subtitle="Project archive with all projects in the portfolio"
+    >}}
+{{< /cards >}}

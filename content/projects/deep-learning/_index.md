@@ -1,5 +1,8 @@
 +++
 title = 'Deep Learning'
+description = """
+Tabular data, Image classification
+"""
 type = 'docs'
 +++
 

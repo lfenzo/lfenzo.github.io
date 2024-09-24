@@ -1,5 +1,5 @@
 +++
 title = 'Document Summarization POC'
 date = 2024-09-15
-type = 'blog'
+type = 'docs'
 +++

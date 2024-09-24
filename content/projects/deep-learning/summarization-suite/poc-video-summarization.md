@@ -2,7 +2,7 @@
 title = 'Video Summarization POC'
 description = ''
 date = 2024-09-15
-type = 'blog'
+type = 'docs'
 +++
 
 ## Video Summarization POC

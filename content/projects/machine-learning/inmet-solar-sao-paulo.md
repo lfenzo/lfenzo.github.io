@@ -17,7 +17,7 @@ The implementation for this project was done in Python3 with common Data Science
 
 {{< cards >}}
   {{< card link="https://github.com/lfenzo/ml-solar-sao-paulo" icon="github" title="Implementation" >}}
-  {{< card link="https://bv.fapesp.br/pt/bolsas/193480/previsao-de-irradiacao-solar-para-sistemas-fotovoltaicos-utilizando-machine-learning-uma-abordagem/" icon="link" title="Funding Agency link" >}}
+  {{< card link="https://bv.fapesp.br/pt/bolsas/193480/previsao-de-irradiacao-solar-para-sistemas-fotovoltaicos-utilizando-machine-learning-uma-abordagem/" icon="link" title="Funding Agency Link" >}}
   {{< card link="https://github.com/lfenzo/ml-solar-sao-paulo/blob/8fc0a0e3f9e1c349a054ac95076ecf5930daf1ce/doc/paper.pdf" icon="book-open" title="Paper" >}}
 {{< /cards >}}
 
