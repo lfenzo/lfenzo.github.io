@@ -27,7 +27,7 @@ toc = false
         image="https://raw.githubusercontent.com/lfenzo/ml-solar-sao-paulo/master/img/sp-map.png"
     >}}
     {{<
-        card link="deep-learning/dummy-satelitte-image-classification" 
+        card link="deep-learning/dummy-satellite-image-classification" 
         title="Dummy Satellite Image Classification"
         subtitle="Deep Learning models to classify satellite images"
         image="https://eos.com/wp-content/uploads/2021/11/Puerto-Rico.jpg.webp"
