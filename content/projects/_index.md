@@ -33,17 +33,17 @@ toc = false
         image="https://eos.com/wp-content/uploads/2021/11/Puerto-Rico.jpg.webp"
     >}}
     {{<
-        card link="open-source/impostor" 
+        card link="software-development/impostor" 
         title="Impostor.jl"
         subtitle="The highly versatile synthetic data generator for the Julia language."
         method="Fit"
         image="https://julialang.org/assets/images/julia-open-graph.png"
     >}}
     {{<
-        card link="open-source/neovim-fusion"
+        card link="software-development/neovim-fusion"
         title="Neovim Fusion"
         subtitle="The redioactive neovim colorscheme (beware of the radiation)"
-        image="open-source/neovim-fusion/c2.png"
+        image="software-development/neovim-fusion/c2.png"
     >}}
 {{< /cards >}}
 
@@ -59,8 +59,8 @@ toc = false
         subtitle="Tabular data regression, classification, etc."
     >}}
     {{<
-        card link="open-source" title="Deep Learning"
-        subtitle="Software tools, programming language libraries, etc"
+        card link="software-development" title="Software Development"
+        subtitle="Open-source, software tools, programming language libraries, etc"
     >}}
     {{<
         card link="iot" title="IoT"

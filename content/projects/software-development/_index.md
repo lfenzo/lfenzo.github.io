@@ -1,9 +1,8 @@
 +++
-title = 'Open Source'
+title = 'Software Development'
 type = 'docs'
 description = "D"
 +++
-
 
 {{< cards >}}
   {{< card link="impostor" title="Impostor.jl" >}}

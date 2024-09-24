@@ -25,7 +25,7 @@ toc = false
 
 {{< badge content="Multi-ensemble based approach for Short-term Solar Radiation Forecasting" link="../machine-learning/inmet-solar-sao-paulo" type="info">}}
 
-### Open Source
+### Software Development
 
-{{< badge content="Impostor.jl" link="../open-source/impostor" type="info">}}
-{{< badge content="Neovim Fusion" link="../open-source/neovim-fusion" type="info">}}
+{{< badge content="Impostor.jl" link="../software-development/impostor" type="info">}}
+{{< badge content="Neovim Fusion" link="../software-development/neovim-fusion" type="info">}}
