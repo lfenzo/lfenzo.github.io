@@ -28,7 +28,7 @@ A couple of noteworthy differences between Impostor.jl and [Faker.jl](https://gi
 {{< cards >}}
   {{< card link="https://github.com/lfenzo/Impostor.jl" icon="github" title="Source Code" >}}
   {{< card link="https://lfenzo.github.io/Impostor.jl/stable/" icon="book-open" title="Documentation" >}}
-  {{< card link="https://discourse.julialang.org/t/ann-impostor-jl-a-highly-versatile-synthetic-data-generator/106166" icon="link" title="Announcement post" >}}
+  {{< card link="https://discourse.julialang.org/t/ann-impostor-jl-a-highly-versatile-synthetic-data-generator/106166" icon="link" title="Announcement Post" >}}
 {{< /cards >}}
 
 

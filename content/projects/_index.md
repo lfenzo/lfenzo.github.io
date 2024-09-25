@@ -52,7 +52,7 @@ toc = false
 {{< cards >}}
     {{<
         card link="deep-learning" title="Deep Learning"
-        subtitle="Computer Visin, LLMs, etc"
+        subtitle="Computer Vision, LLMs, etc"
     >}}
     {{<
         card link="machine-learning" title="Machine Learning"
