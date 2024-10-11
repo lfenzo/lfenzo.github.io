@@ -9,7 +9,7 @@ type = 'docs'
 
 This project presents a proof-of-concept application designed to automatically summarize YouTube videos through a combination of audio extraction, speech recognition, and text summarization. By utilizing OpenAI’s Whisper for speech-to-text and the Gemma 2 model for summarization, the application efficiently generates concise summaries of video content, making it ideal for a range of video types and lengths.
 
-Even though this project was designed as a proof-of-concept, if you want you can run it locally with the utility script to summarize any (or almost any) YouTube video.
+Even though this project was designed as a proof-of-concept, if you want you can run it locally with the utility script to summarize (almost) any YouTube video.
 
 ### Technology Stack
 
