@@ -4,27 +4,37 @@ date = 2024-03-28T17:29:05-03:00
 toc = false
 +++
 
-### [Robbyson Systems](https://www.linkedin.com/company/robbyson)
+### [Robbyson Systems Desenvolvimento de Sistemas S/A](https://www.linkedin.com/company/robbyson)
+
+Brazil-based B2B company with a team of 100 employees offering a performance management platform to boost employee
+engagement and satisfaction.
 
 #### Mid-Level Data Scientist (May/2024 - present)
 
-- Designed proof of concept applications leveraged by LLMs for information summarizaiton in textual, video and audio formats.
-- Designed and implemented a Python package for data analysis on GitLab repositories data to assess efficiency and development cost.
-- Analyzed data from behavioral projection algorithms in order to ensure quality and consistency.
+- Contributed to the creation of new AI features for the platform
+- Collaborated on the maintenance of legacy systems.
+- Analyzed data from behavioral projection algorithms to ensure quality and consistency.
 
-### [Big Data S/A](https://www.linkedin.com/company/big-data-brasil-/)
+Designed and implemented:
+- Document processing MVP for translation, summarization, description and tagging using Langchain, Podman, FastAPI and MongoDB.
+- LLM-powered summarization POCs for text, audio and video with Whisper, Gemma and Llama open models.
+- Python package for GitLab data analysis focused on assessing development costs and developer effectiveness.
+
+### [Big Data Assessoria Empresarial S/A](https://www.linkedin.com/company/big-data-brasil-/)
+
+B2B AI-focused Brazilian company with 60 employees specializing in recommendation systems for retail companies.
 
 ##### Junior Data Scientist (Oct/2022 - Mar/2024)
-As a Junior Data Scientist, I transitioned to the Forecast and Product Operations divisions, where I developed and maintained Machine
-Learning-centered pipelines.
-- Contributed to the development of a recommendation system for a market-leading company in the civil construction sector.
-- Idealized and implemented a quality assurance framework responsible for automating artifacts validation processes.
-- Contributed to codebases with new features, code reviews, maintenance, refactoring and testing using the GitLab ecossystem.
-- Conducted and presented data analyses regarding both client data and deliverables.
-- Orchestrated ETL and Machine Learning pipelines with Apache Airflow.
 
-##### Data Science Intern (Jan/2022 - Sep/2022)
-Developed a price-elasticity modeling approach through Panel Data Regression and Supervised Machine Learning for products of a market-leading company in the civil construction sector using Python `statsmodels` and `pandas`. This technique was applied to models in production to incorporate the behavior of market price dynamics and adjust item recommendations.
+- Participated in the orchestration of ETL workflows and Machine Learning pipelines using Apache Airflow.
+- Worked on the development of a recommendation system for a leading company in the civil construction sector.
+- Contributed to codebases using Git for version control with new features, refactoring, maintenance and code reviews.
+- Designed and implemented a Python framwwork for  quality assurance to automate artifact validation processes.
+
+##### Data Science Intern (Jan/2022 - Oct/2022)
+
+- Performed data analyses on client data and project deliverables presenting key findings to stakeholders.
+- Developed an algorithm to adjust production model predictions based on price elasticity aligning recommendations with market price changes.
 
 ### [FAPESP - Fundação de Amparo à Pesquisa do Estado de São Paulo](https://fapesp.br/)
 
