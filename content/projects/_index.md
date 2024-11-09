@@ -8,8 +8,8 @@ toc = false
 
 {{< cards >}}
     {{<
-        card link="deep-learning/multimodal-summarization-app" 
-        title="Multimodal Summarization App"
+        card link="deep-learning/langchain-summarization-app" 
+        title="Langchain Summarization App"
         subtitle="LangChain-powered multi-format deployable summarization application."
         method="Crop"
         image=""
