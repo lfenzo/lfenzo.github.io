@@ -38,13 +38,13 @@ via the REST API feedbacks for the generated summaries.
 ## Input Formats
 
 The two main formats processed by the application include text and audio. Langchain makes it easy to
-extract the content, in this case text, of a myriad of file formats using its [Document Loaders](https://python.langchain.com/docs/concepts/document_loaders/)
+extract the content of a myriad of file formats using its [Document Loaders](https://python.langchain.com/docs/concepts/document_loaders/)
 , which act as an initial step in the processing pipeline. The Summarization Service class dynamically
-selects the appropriate Loader based on the file type, identified using `libmagic`. Consequently,
+selects the appropriate Loader based on the file type, identified using [`libmagic`](https://github.com/dveselov/python-libmagic). Consequently,
 **all files submitted to the service are uploaded as raw binary data**.
 
 Below is an example of an API call in which some file `file.pdf` is uploaded to appropriate endpoint
-using a POST request.
+using [POST requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST).
 
 ```bash
 $ curl -X POST "http://0.0.0.0:8000/summarize"
@@ -63,24 +63,30 @@ environment.
 
 ## Architecture
 
+The diagram below depics the overall architecture of the application; gray boxes indicate the containers,
+while the black boxes indicate the actual services run in each container, dotted lines indicate 
+optional communications between services.
+
 ```mermaid
 flowchart LR
 
-subgraph Model["Model Service (GPU)"]
+subgraph Model["LLM (GPU)"]
     direction LR
-    O["Ollama Server"]
+    O["Ollama"]
 end
 
-O <--> R
-
 subgraph Cache["Cache Service"]
-    direction LR
     R["Redis"]
 end
     
-subgraph S["Summarization Service"]
-    H["Langchain"]
+subgraph Service["Summarization Service"]
+    FastAPI
+    H["Langchain<br>Service"]
     Loader
+end
+
+subgraph Tr["Transcription (GPU)"]
+    T["Faster Whisper"]
 end
 
 subgraph D["Storage Service"]
@@ -88,13 +94,51 @@ subgraph D["Storage Service"]
     MongoDB
 end
 
-FastAPI --> H
+User --> FastAPI --> H
 H ---> MongoDB
-H ---> O
-H <--> Loader
+H ---> O <-.-> R
+H <--> Loader <-.-> T
 ```
 
-### Componentes and Containers
+### Containers and Components 
+
+The central container, "Summarization Service", orchestrates the processing of documents forwarded
+by the FastAPI server. It extracts the content with the appropriate Document Loader, sends the
+extracted text over to the LLM service and stores the received summary (and its metadata) in the
+Storage Service it is connected to. All commmunication between the services is performed over the
+[podman-defined network](https://github.com/containers/podman/blob/main/docs/tutorials/basic_networking.md)
+to which all services are connected.
+
+The LLM service runs an instance of [Ollama](https://github.com/ollama/ollama) in a GPU capable
+container using the [nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html).
+This service allows us easily change the LLM used in the application while optimizing hardware
+utilization as well as other aspects like the number of concurrent inference processes, queue size
+limits and the simultaneous loading of multiple models.
+
+The Cache Service uses an instance of Redis integrated with LangChain's LLM abstraction via the
+[Redis Langchain integration](https://python.langchain.com/docs/integrations/caches/redis_llm_caching/).
+This integration eliminates the need for custom caching logic while preventing redundant calls to
+the LLM which is particularly beneficial when using external (paid) LLM services. Configurable options
+include TTL (time-to-live) for cached responses.
+
+The Transcription Service operates in another GPU-capable container (using a different version of CUDA)
+running a [`faster-whisper-server`](https://github.com/fedirz/faster-whisper-server) instance,
+a containerized runtime for [`faster-whisper`](https://github.com/SYSTRAN/faster-whisper) which is integrated
+with Langchain using the [custom Document Loader](https://github.com/langchain-ai/langchain/pull/26638)
+mentioned earlier. The decoupling of this service prevents us from adding GPU-heavy dependencies to
+the "Summarization Service" container and also simplifies swapping the transcription service, as
+it only requires updating the Langchain integration for handling video and audio content.
+
+The Storate Service runs a MongoDB instance responsible for storing:
+1) The generated summaries
+2) LLM generation metadata and other service parameters
+3) Feedbacks received for each summary.
+
+Some [integrations from Langchain](https://python.langchain.com/api_reference/mongodb/index.html)
+could have been used, but given the specialized nature of the storage schema, an interface
+for the application was developed in order to abstract the interactions with the database (and also
+making it simple to swap the storage service if needed).
+
 
 ### Execution Flow
 
@@ -112,3 +156,4 @@ sequenceDiagram
 
 ## Streaming & Batching
 
+## Data Storage
