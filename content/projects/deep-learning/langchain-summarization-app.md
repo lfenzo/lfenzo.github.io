@@ -100,7 +100,7 @@ H ---> O <-.-> R
 H <--> Loader <-.-> T
 ```
 
-### Containers and Components 
+### Containers & Components 
 
 The central container, "Summarization Service", orchestrates the processing of documents forwarded
 by the FastAPI server. It extracts the content with the appropriate Document Loader, sends the
@@ -131,8 +131,9 @@ it only requires updating the Langchain integration for handling video and audio
 
 The Storate Service runs a MongoDB instance responsible for storing:
 1) The generated summaries
-2) LLM generation metadata and other service parameters
-3) Feedbacks received for each summary.
+1) The origingal document as raw binary (*i.e.* as received by the application)
+1) LLM generation metadata and other service parameters
+1) Feedbacks received for each summary.
 
 Some [integrations from Langchain](https://python.langchain.com/api_reference/mongodb/index.html)
 could have been used, but given the specialized nature of the storage schema, an interface
@@ -141,6 +142,10 @@ making it simple to swap the storage service if needed).
 
 
 ### Execution Flow
+
+The follownig steps describe a high level overview of the operations performed on each
+document submitted to the summarization application. Note that given the asynchronous nature of
+the system, multiple steps may execute concurrently on different documents.
 
 ```mermaid
 sequenceDiagram
@@ -153,6 +158,15 @@ sequenceDiagram
     Service -->> FastAPI: Stream/Batch<br>Response
     Service ->> Storage: File Bytes + Summary and Metadata
 ```
+
+1) The FastAPI server receives the file as raw binary data via a POST request.
+1) The document is temporarily stored locally, and its file path is passed to the Loader for content extraction.
+1) The Loader processes the file, extracting its content and converting it into LangChain Documents.
+1) The Langchain Runnable component checks the Cache Service for any existing summary of the document to avoid redundant processing.
+1) If no cached result is found, the document is forwarded to the LLM service for summarization. The summary is either streamed directly or accumulated for batch responses.
+1) The generated summary is then returned to the user through FastAPI, either as a stream or a complete batch, depending on the initial user request.
+1) Finally, the original file bytes, the summary and associated metadata are saved in the Storage Service for future reference and/or debugging.
+
 
 ## Streaming & Batching
 
