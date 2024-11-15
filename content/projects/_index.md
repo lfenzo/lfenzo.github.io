@@ -16,7 +16,7 @@ toc = false
     >}}
     {{<
         card link="deep-learning/summarization-suite" 
-        title="Summarization POC Suite"
+        title="Summarization Suite"
         subtitle="Series of POC for information summarization in different formats."
     >}}
     {{<
