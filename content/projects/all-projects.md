@@ -9,8 +9,9 @@ toc = false
 
 {{< badge content="Dummy Satellite Image Classification" link="../deep-learning/dummy-satellite-image-classification" type="info">}}
 {{< badge content="Document Summarization POC" link="../deep-learning/summarization-suite/poc-document-summarization" type="info">}}
+{{< badge content="LangChain Summarization App" link="../deep-learning/langchain-summarization-app" type="info">}}
+{{< badge content="LangChain Document Processor" link="../deep-learning/langchain-document-processor" type="info">}}
 {{< badge content="Meeting Summarization POC" link="../deep-learning/summarization-suite/poc-meeting-summarization" type="info">}}
-{{< badge content="Multimodal LangChain Summarization App" link="../deep-learning/multimodal-summarization-app" type="info">}}
 {{< badge content="Video Summarization POC" link="../deep-learning/summarization-suite/poc-video-summarization" type="info">}}
 
 ### IoT
