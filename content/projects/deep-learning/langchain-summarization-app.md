@@ -76,7 +76,7 @@ subgraph Model["LLM (GPU)"]
 end
 
 subgraph Cache["Cache Service"]
-    R["Redis"]
+    R[("Redis")]
 end
     
 subgraph Service["Summarization Service"]
@@ -91,11 +91,11 @@ end
 
 subgraph D["Storage Service"]
     direction LR
-    MongoDB
+    mongo[(MongoDB)]
 end
 
 User --> FastAPI --> H
-H ---> MongoDB
+H ---> mongo
 H ---> O <-.-> R
 H <--> Loader <-.-> T
 ```
