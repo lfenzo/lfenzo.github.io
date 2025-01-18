@@ -18,7 +18,7 @@ toc = false
 
 <br>
 
-{{< badge content="ESP32 Temperature over LAN" link="../iot/esp32-temp-over-lan" type="info">}}
+{{< badge content="ESP32 Measurements over LAN" link="../iot/esp32-measurements-over-lan" type="info">}}
 
 ### Machine Learning
 
