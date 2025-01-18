@@ -4,6 +4,11 @@ date = 2024-03-28T17:29:05-03:00
 toc = false
 +++
 
+<figure>
+    <img src="./metamorphosis.png">
+    <figcaption style="text-align: left;"><i>"Metamorphosis II"</i> by M. C. Escher (woodcut, 1940)</figcaption>
+</figure>
+
 ### Featured
 
 {{< cards >}}
