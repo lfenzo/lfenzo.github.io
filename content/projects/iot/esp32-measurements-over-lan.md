@@ -21,11 +21,16 @@ as a module of larger projects.
 ```mermaid
 flowchart LR
 
-d1["ESP32<br>(Device)"] -->|"Raw Data<br>(JSON)"| API["FastAPI<br>(Docker)"]
-API -->|"Formatted INSERT<br>SQL Query"| DB["Postgres<br>(Docker)"]
+subgraph containers["Compose Application"]
+	API
+	DB
+end
+
+d1["ESP32<br>(Device)"] -->|"Raw Data<br>(JSON)"| API["REST API<br>(FastAPI)"]
+API -->|"Formatted INSERT SQL Query"| DB["Database<br>(Postgres)"]
 ```
 
-- **ESP32 Embedded Code:** Establishes a connection to the specified Wi-Fi network and synchronizes the device's clock using NTP. Written in the Arduino language, this code then interacts with the DHT11 sensor to collect temperature and humidity readings. It packages the sensor data along with essential metadata - such as the device ID and the data collection timestamp - into a JSON object transmitted as payload over the network to the API `sensor_observations` endpoint.
+- **ESP32 Embedded Code:** Establishes a connection to the specified Wi-Fi network and synchronizes the device's clock using NTP. Written in the Arduino language, this code then interacts with the [DHT11 sensor](https://www.mouser.com/datasheet/2/758/DHT11-Technical-Data-Sheet-Translated-Version-1143054.pdf) to collect temperature and humidity readings. It packages the sensor data along with essential metadata - such as the device ID and the data collection timestamp - into a JSON object transmitted as payload over the network to the API `sensor_observations` endpoint.
 
 - **API:** Handles `POST` and `GET` requests directed to the `sensor_observations` endpoint. It processes JSON payloads sent by ESP32 devices, transforming them with `pydantic` into formatted SQL queries. These queries are then inserted into a PostgreSQL database using [`pg8000`](https://pypi.org/project/pg8000/).
 
