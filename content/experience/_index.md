@@ -4,12 +4,19 @@ date = 2024-03-28T17:29:05-03:00
 toc = false
 +++
 
+### [BTG Pactual S/A](https://br.linkedin.com/company/btgpactual)
+
+Brazilian investment bank with global operations providing solutions for investment banking,
+asset management and wealth management services.
+
+#### AI Engineer (February/2024 - Present)
+
 ### [Robbyson Systems Desenvolvimento de Sistemas S/A](https://www.linkedin.com/company/robbyson)
 
 Brazil-based B2B company with a team of 100 employees offering a performance management platform to boost employee
 engagement and satisfaction.
 
-#### Mid-Level Data Scientist (May/2024 - present)
+#### Data Scientist (May/2024 - January/2024)
 
 - Contributed to the creation of new AI features for the platform
 - Collaborated on the maintenance of legacy systems.
