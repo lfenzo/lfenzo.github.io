@@ -5,12 +5,16 @@ type = 'docs'
 tags = ['deep-learning']
 +++
 
+
 **Goal:** Build a binary image classifier with Transfer Learning to distinguish between dog and cat images.
+
+![](https://raw.githubusercontent.com/lfenzo/dl-dogs-vs-cats/refs/heads/master/img/examples.jpeg)
 
 {{< cards >}}
   {{< card link="https://github.com/lfenzo/dl-dogs-vs-cats" icon="github" title="Source Code" >}}
   {{< card link="https://www.kaggle.com/c/dogs-vs-cats" icon="database" title="Kaggle Dataset" >}}
 {{< /cards >}}
+
 
 **Background**
 
