@@ -13,6 +13,7 @@ toc = false
 {{< badge content="LangChain Document Processor" link="../deep-learning/langchain-document-processor" type="info">}}
 {{< badge content="Meeting Summarization POC" link="../deep-learning/summarization-suite/poc-meeting-summarization" type="info">}}
 {{< badge content="Video Summarization POC" link="../deep-learning/summarization-suite/poc-video-summarization" type="info">}}
+{{< badge content="Dogs vs. Cats Image Classification" link="../deep-learning/dogs-vs-cats-image-classification" type="info">}}
 
 ### IoT
 

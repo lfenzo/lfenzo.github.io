@@ -1,12 +1,10 @@
 +++
 title = 'Deep Learning'
-description = """
-Tabular data, Image classification
-"""
+description = "Tabular data, Image classification"
 type = 'docs'
 +++
 
-{{< cards >}}
+{{< cards cols="1" >}}
   {{< card link="langchain-document-processor" title="Langchain Document Processor" >}}
   {{< card link="langchain-summarization-app" title="Langchain Summmarization App" >}}
   {{< card link="summarization-suite" title="Summarization POC Suite" >}}
