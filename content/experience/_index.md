@@ -9,14 +9,14 @@ toc = false
 Brazilian investment bank with global operations providing solutions for investment banking,
 asset management and wealth management services.
 
-#### AI Engineer (February/2024 - Present)
+#### AI Engineer (February/2025 - Present)
 
 ### [Robbyson Systems Desenvolvimento de Sistemas S/A](https://www.linkedin.com/company/robbyson)
 
 Brazil-based B2B company with a team of 100 employees offering a performance management platform to boost employee
 engagement and satisfaction.
 
-#### Data Scientist (May/2024 - January/2024)
+#### Data Scientist (May/2024 - January/2025)
 
 - Contributed to the creation of new AI features for the platform
 - Collaborated on the maintenance of legacy systems.
