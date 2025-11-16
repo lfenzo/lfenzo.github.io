@@ -1,9 +1,7 @@
 +++
 title = 'Impostor.jl'
-description = "Impostor.jl is a Julia package for generating synthetic tabular data through a concise and flexible API, leveraging Julia's Multiple Dispatch paradigm. It allows for cohesive relationships between table columns using templates while providing standalone generator functions for specific data series. This package was created to streamline data generation processes, from API design to distribution via the Julia General Registry."
-date = 2024-03-28T17:29:05-03:00
 type = 'docs'
-tags = ['open-source', 'package', 'julia', 'synthetic data']
+sidebar.exclude = true
 +++
 
 ## Introduction

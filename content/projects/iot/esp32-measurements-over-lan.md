@@ -1,9 +1,7 @@
 +++
 title = 'ESP32 Measurements over LAN'
-description = 'A simples prove of concept to send ESP32 collected data over LAN to a database'
-date = 2023-03-28T17:29:05-03:00
 type = 'docs'
-tags = ['IoT']
+sidebar.exclude = true
 +++
 
 This project showcases a simple proof of concept using the **ESP32 to collect temperature and humidity

@@ -1,9 +1,7 @@
 +++
 title = 'Neovim Fusion'
-description = "Fusion.nvim is a dark colorscheme plugin for Neovim, designed to enhance code readability and aesthetics through vibrant and harmonious color combinations. Developed in Lua, it ensures consistency across various programming languages with nvim-tree-sitter, offering clear and consistent syntax highlighting for a wide range of languages."
-date = 2024-07-16
 type = 'docs'
-tags = ['neovim', 'text-editor', 'open-source']
+sidebar.exclude = true
 +++
 
 ## The Radioactive Neovim Colorscheme

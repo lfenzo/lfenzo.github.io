@@ -1,9 +1,7 @@
 +++
 title = 'Dummy Satellite Image Classification'
-description = "A simple project using computer vision techniques with deep learning to classify satellite images."
-date = 2024-03-28T17:29:05-03:00
 type = 'docs'
-tags = ['deep-learning']
+sidebar.exclude = true
 +++
 
 ## Introduction

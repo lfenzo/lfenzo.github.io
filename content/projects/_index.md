@@ -68,8 +68,4 @@ toc = false
         card link="iot" title="IoT"
         subtitle="Arduino, sensor measurements, etc"
     >}}
-    {{<
-        card link="all-projects" title="All Projects"
-        subtitle="Project archive with all projects in the portfolio"
-    >}}
 {{< /cards >}}

@@ -1,10 +1,8 @@
 +++
 title = 'Multi-ensemble based approach for Short-term Solar Radiation Forecasting'
-description = "This project focuses on developing a machine learning-based approach for solar radiation forecasting using historical meteorological data from INMET, Brazil's National Meteorology Institute. Implemented in Python, the project involves data processing, model training, and analysis, resulting in a full ML pipeline to predict solar radiation intensity. The goal was to estimate energy yield from solar panels, with data imputation and a stacked modeling strategy improving prediction accuracy."
-date = 2024-03-28T17:29:05-03:00
 type = 'docs'
-tags = ['machine-learning', 'solar-energy']
 math = true
+sidebar.exclude = true
 +++
 
 ## Introduction

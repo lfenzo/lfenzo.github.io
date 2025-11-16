@@ -1,7 +1,7 @@
 +++
-title = 'Document Summarization POC'
-date = 2024-09-15
+title = 'Document Summarization PoC'
 type = 'docs'
+sidebar.exclude = true
 +++
 
 {{< cards >}}

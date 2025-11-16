@@ -1,10 +1,8 @@
 +++
 title = 'Dogs vs. Cats Image Classification'
-date = 2024-03-28T17:29:05-03:00
 type = 'docs'
-tags = ['deep-learning']
+sidebar.exclude = true
 +++
-
 
 **Goal:** Build a binary image classifier with Transfer Learning to distinguish between dog and cat images.
 

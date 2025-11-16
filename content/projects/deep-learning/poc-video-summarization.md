@@ -1,8 +1,7 @@
 +++
-title = 'Video Summarization POC'
-description = ''
-date = 2024-09-15
+title = 'Video Summarization PoC'
 type = 'docs'
+sidebar.exclude = true
 +++
 
 ## Introduction
