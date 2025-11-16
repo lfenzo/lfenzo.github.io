@@ -1,0 +1,10 @@
+services:
+  hugo-server:
+    build:
+      dockerfile: Containerfile
+    image: hugo
+    ports:
+      - 1313:1313
+    volumes:
+      - ./:/app
+    command: ["hugo", "server", "--bind", "0.0.0.0", "-p", "1313"]
