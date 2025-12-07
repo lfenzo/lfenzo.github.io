@@ -20,21 +20,23 @@ toc = false
         image=""
     >}}
     {{<
-        card link="deep-learning/summarization-suite" 
-        title="Summarization Suite"
-        subtitle="Series of POC for information summarization in different formats."
+        card link="deep-learning/poc-video-summarization"
+        title="Video Summarization PoC"
+        subtitle="LLM-powered YouTube video summarizer"
+        method="Crop"
+        image=""
+    >}}
+    {{<
+        card link="machine-learning/inmet-solar-sao-paulo"
+        title="Multi-ensemble based approach for Short-term Solar Radiation Forecasting"
+        subtitle="Machine Learning models to predict solar radiation."
+        method="Crop"
     >}}
     {{<
         card link="software-development/impostor" 
         title="Impostor.jl"
         subtitle="The highly versatile synthetic data generator for the Julia language."
         method="Fit"
-    >}}
-    {{<
-        card link="machine-learning/inmet-solar-sao-paulo" 
-        title="Multi-ensemble based approach for Short-term Solar Radiation Forecasting"
-        subtitle="Machine Learning models to predict solar radiation."
-        method="Crop"
     >}}
     {{<
         card link="deep-learning/dummy-satellite-image-classification" 
